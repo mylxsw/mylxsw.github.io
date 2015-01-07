@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-  <title>Aicode.CN</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{{ site.site_title }}</title>
+
+    <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
+    <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/flat-ui.css" rel="stylesheet">
+
+    <link href="{{ site.base_url }}/assets/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/vendor/html5shiv.js"></script>
+    <script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/vendor/respond.min.js"></script>
+    <![endif]-->
 </head>
 <body>
-{{content}}
+
+<div class="container">
+
+    <div class="masthead">
+        <h3 class="text-muted">{{ site.site_name }}</h3>
+        <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-09">
+                    <span class="sr-only">Toggle navigation</span>
+                </button>
+                <a class="navbar-brand" href="{{ site.base_url }}/index.html"><span class="fui-home"></span></a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="#navbar-collapse-09">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">文章<span class="navbar-unread">1</span></a></li>
+                    <li><a href="#">关于<span class="navbar-new">1</span></a></li>
+                </ul>
+                <!--
+                <form role="search" class="navbar-form navbar-right">
+                    <div class="form-group">
+                        <input type="text" placeholder="Search" class="form-control">
+                    </div>
+                    <button class="btn btn-default" type="submit">Submit</button>
+                </form>
+                -->
+            </div><!-- /.navbar-collapse -->
+        </nav><!-- /navbar -->
+    </div>
+
+    {{ content }}
+
+    <footer>
+        <a href="http://www.miitbeian.gov.cn" target="_blank">{{ site.icp }}</a>
+        Copyright &copy;2014
+        <a href="{{ site.base_url }}" target="_blank">{{ site.site_name }}</a>
+        <script src="http://v1.cnzz.com/z_stat.php?id=1000419659&web_id=1000419659" language="JavaScript"></script>
+    </footer>
+</div> <!-- /container -->
+
+<script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/vendor/jquery.min.js"></script>
+<script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/flat-ui.min.js"></script>
+<script src="{{ site.base_url }}/assets/js/app.js"></script>
+
 </body>
 </html>
