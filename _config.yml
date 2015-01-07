@@ -10,3 +10,13 @@ site_title: 爱生活，爱代码 - AICODE
 encoding: utf-8
 timezone: Asia/Shanghai
 highlighter: pygments
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: default
+      author: 管宜尧
+      disqus: true

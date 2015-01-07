@@ -6,3 +6,26 @@ footer {
   border-top: 1px solid #e5e5e5;
   text-align: center;
 }
+.blog-main img {
+  width: 100%;
+}
+.ai-articles .ai-article {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e6eaed;
+}
+.ai-articles .ai-article:last-child {
+  border-bottom: none;
+}
+.ai-articles .ai-article:first-child {
+  border-top: 1px solid #e6eaed;
+}
+.ai-articles .ai-article .ai-info {
+  margin-bottom: 10px;
+  height: 24px;
+  line-height: 24px;
+}
+.ai-articles .ai-article .ai-thumb {
+  width: 140px;
+  height: 140px;
+}
