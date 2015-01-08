@@ -7,7 +7,7 @@ footer {
   text-align: center;
 }
 .blog-main img {
-  width: 100%;
+  width: 90%;
 }
 .ai-remark {
   margin-top: 30px;
@@ -19,6 +19,7 @@ footer {
 .ai-articles .ai-article {
   padding-top: 20px;
   padding-bottom: 20px;
+  min-height: 200px;
   border-bottom: 1px solid #e6eaed;
 }
 .ai-articles .ai-article:last-child {
@@ -35,6 +36,9 @@ footer {
 .ai-articles .ai-article .ai-thumb img {
   width: 140px;
   height: 140px;
+}
+.ai-articles .ai-article .media-body {
+  padding-left: 16px;
 }
 .ai-logo {
   height: 40px;
