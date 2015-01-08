@@ -3,13 +3,13 @@ layout: default
 sidebar: true
 ---
 
-<h4>最新文章</h4>
+<h4 class="hidden-xs">最新文章</h4>
 
 <div class="ai-articles">
     {% for post in paginator.posts %}
 
     <article class="media ai-article">
-        <div class="ai-info">
+        <div class="ai-info hidden-xs">
             <div class="ai-category pull-left">
                 {% for cat in post.categories %}
                 <a href="{{site.base_url}}/category.html#{{ cat }}-ref">{{ cat }}</a>
@@ -17,7 +17,7 @@ sidebar: true
             </div>
             <div class="pull-right meta">{{ post.date | date_to_string }}</div>
         </div>
-        <a class="pull-left media-left ai-thumb">
+        <a class="pull-left media-left ai-thumb hidden-xs">
             {% if post.thumb %}
             <img alt="{{ post.title }}" class="img-rounded" src="{{ post.thumb }}">
             {% else %}

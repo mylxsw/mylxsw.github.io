@@ -1,9 +1,12 @@
 <div class="masthead">
     <h3 class="text-muted">
         <a href="{{ site.production_url }}">
-            <img src="{{ site.base_url }}/assets/images/logo.png" class="ai-logo"/>
+            <!--<img src="{{ site.base_url }}/assets/images/logo.png" class="ai-logo"/>-->
+            <span style="font-family: 'Comic Sans MS'; color: #2CA672;font-size: 42pt; text-shadow: 4px 3px 1px #ccc;">Ai</span>
+            <span style="font-family: 'Comic Sans MS'; color: #fff; text-shadow: 3px 1px 7px #0A0A0A;">CODE</span>
         </a>
     </h3>
+
 
     <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
 
@@ -14,7 +17,7 @@
             <a class="navbar-brand" href="{{ site.base_url }}/index.html"><span class="fui-home"></span></a>
         </div>
 
-        <div class="collapse navbar-collapse" id="#navbar-collapse-09">
+        <div class="collapse navbar-collapse" id="navbar-collapse-09">
 
             <ul class="nav navbar-nav">
                 <li class=" {% if page.navbar == '技术文章' %} active {% endif %}">

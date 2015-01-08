@@ -10,4 +10,5 @@ $(function() {
 
     // 文章内部链接改为新页面打开
     $('.ai-link-rewrite a').attr('target', '_blank');
+
 });
