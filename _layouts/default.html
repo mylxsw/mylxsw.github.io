@@ -4,11 +4,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
 
-    <title>{{ site.site_title }}</title>
+    <meta name="description" content="{{ page.excerpt | strip_html }}">
+    <meta name="author" content="管宜尧, mylxsw, code.404, arsenals">
+    <meta name="keywords" content="{{ page.title }}, AiCode, 管宜尧 , Arsenals, {{page.tags}}">
+
+    {% comment %} 如果包含页面标题，则使用标题作为title，否则使用站点标题 {% endcomment %}
+    {% if page.title %}
+        <title>{{ page.title }} - {{ site.site_name }}</title>
+    {% else %}
+        <title>{{ site.site_title }}</title>
+    {% endif %}
 
     <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
     <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/flat-ui.css" rel="stylesheet">
@@ -25,59 +31,34 @@
 
 <div class="container">
 
-    <div class="masthead">
-        <h3 class="text-muted">{{ site.site_name }}</h3>
-        <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-09">
-                    <span class="sr-only">Toggle navigation</span>
-                </button>
-                <a class="navbar-brand" href="{{ site.base_url }}/index.html"><span class="fui-home"></span></a>
-            </div>
+    {% include navbar %}
 
-            <div class="collapse navbar-collapse" id="#navbar-collapse-09">
-
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">技术文章 <b class="caret"></b></a>
-                        <span class="dropdown-arrow"></span>
-                        <ul class="dropdown-menu">
-                            {% for cat in site.categories %}
-                            <li><a href="{{site.BASE_PATH}}/category.html#{{ cat[0] }}-ref">{{ cat[0] }}</a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                    <li><a href="{{ site.base_url }}/about.html">关于</a></li>
-                </ul>
-                <!--
-                <form role="search" class="navbar-form navbar-right">
-                    <div class="form-group">
-                        <input type="text" placeholder="Search" class="form-control">
-                    </div>
-                    <button class="btn btn-default" type="submit">Submit</button>
-                </form>
-                -->
-            </div><!-- /.navbar-collapse -->
-        </nav><!-- /navbar -->
-    </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-
-            <div class="col-sm-8 blog-main">
-
+            {% capture body %}
                 {% if page.title %}
                 <h2>{{page.title}}</h2>
                 {% endif %}
 
                 {{ content }}
 
-                {% include comments_duoshuo.html %}
-                {% include comments_disqus.html %}
-            </div><!-- /.blog-main -->
+                {% include comments_duoshuo %}
+                {% include comments_disqus %}
+            {% endcapture %}
 
-            <div class="col-sm-3 blog-sidebar">
-                {% include sidebar.html %}
-            </div><!-- /.blog-sidebar -->
+            {% if page.sidebar %}
+
+                <div class="col-sm-9 blog-main">
+                    {{ body }}
+                </div><!-- /.blog-main -->
+
+                <div class="col-sm-3 blog-sidebar">
+                    {% include sidebar %}
+                </div><!-- /.blog-sidebar -->
+
+            {% else %}
+                {{ body }}
+            {% endif %}
 
         </div><!-- /.row -->
 

@@ -9,6 +9,10 @@ footer {
 .blog-main img {
   width: 100%;
 }
+.ai-remark {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
 .ai-articles .ai-article {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -25,7 +29,7 @@ footer {
   height: 24px;
   line-height: 24px;
 }
-.ai-articles .ai-article .ai-thumb {
+.ai-articles .ai-article .ai-thumb img {
   width: 140px;
   height: 140px;
 }

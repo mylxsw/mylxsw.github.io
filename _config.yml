@@ -6,10 +6,14 @@ icp: 鲁ICP备14009006号
 site_name: AiCode
 site_title: 爱生活，爱代码 - AICODE
 
+base_url:
+production_url: http://aicode.cn
+
 
 encoding: utf-8
 timezone: Asia/Shanghai
 highlighter: pygments
+paginate: 3
 
 defaults:
   -
@@ -20,3 +24,4 @@ defaults:
       layout: default
       author: 管宜尧
       disqus: true
+      sidebar: true
