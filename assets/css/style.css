@@ -13,6 +13,9 @@ footer {
   margin-top: 30px;
   margin-bottom: 20px;
 }
+.ai-categories {
+  margin-bottom: 38px;
+}
 .ai-articles .ai-article {
   padding-top: 20px;
   padding-bottom: 20px;
@@ -32,4 +35,7 @@ footer {
 .ai-articles .ai-article .ai-thumb img {
   width: 140px;
   height: 140px;
+}
+.ai-sidebar-erweima img {
+  width: 200px;
 }

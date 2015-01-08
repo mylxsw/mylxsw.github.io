@@ -3,7 +3,7 @@ layout: default
 sidebar: true
 ---
 
-<h3>最新文章</h3>
+<h4>最新文章</h4>
 
 <div class="ai-articles">
     {% for post in paginator.posts %}
@@ -25,32 +25,12 @@ sidebar: true
             {% endif %}
         </a>
         <div class="media-body">
-            <h4><a href="{{ site.base_url }}{{post.url}}">{{ post.title }}</a></h4>
+            <h5><a href="{{ site.base_url }}{{post.url}}">{{ post.title }}</a></h5>
             <p>{{ post.excerpt | strip_html }}</p>
         </div>
     </article>
 
     {% endfor %}
 
-    <!-- Pagination links -->
-    <div class="pagination pagination-danger">
-        {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path }}" class="btn btn-danger previous">
-            <i class="fui-arrow-left"></i>
-            Previous
-        </a>
-        {% else %}
-        <span class="previous">Previous</span>
-        {% endif %}
-        <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
-        {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path }}" class="btn btn-danger next">
-            Next
-            <i class="fui-arrow-right"></i>
-        </a>
-        {% else %}
-        <span class="next ">Next</span>
-        {% endif %}
-    </div>
-
 </div>
+{% include paginator %}

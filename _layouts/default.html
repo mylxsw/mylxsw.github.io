@@ -16,7 +16,7 @@
         <title>{{ site.site_title }}</title>
     {% endif %}
 
-    <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/vendor/bootstrap.min.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ site.base_url }}/assets/vendor/Flat-UI/dist/css/flat-ui.css" rel="stylesheet">
 
     <link href="{{ site.base_url }}/assets/css/style.css" rel="stylesheet">
@@ -35,12 +35,19 @@
 
     <div class="container-fluid">
         <div class="row">
+            {% comment %} 捕获页面主体内容，用于下面根据是否显示侧边栏显示 {% endcomment %}
             {% capture body %}
                 {% if page.title %}
-                <h2>{{page.title}}</h2>
+                    <h3>{{page.title}}</h3>
+                    <section class="ai-link-rewrite">
                 {% endif %}
 
                 {{ content }}
+
+                {% if page.title %}
+                        <p>[<a href="{{ site.production_url }}">{{ site.site_name | upcase }}</a> 原创文章, 作者 {{page.author}}]</p>
+                    </section>
+                {% endif %}
 
                 {% include comments_duoshuo %}
                 {% include comments_disqus %}
@@ -50,11 +57,11 @@
 
                 <div class="col-sm-9 blog-main">
                     {{ body }}
-                </div><!-- /.blog-main -->
+                </div>
 
                 <div class="col-sm-3 blog-sidebar">
                     {% include sidebar %}
-                </div><!-- /.blog-sidebar -->
+                </div>
 
             {% else %}
                 {{ body }}
@@ -74,6 +81,7 @@
 </div> <!-- /container -->
 
 <script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/vendor/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 <script src="{{ site.base_url }}/assets/vendor/Flat-UI/dist/js/flat-ui.min.js"></script>
 
 <script src="{{ site.base_url }}/assets/js/app.js"></script>

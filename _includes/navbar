@@ -1,6 +1,8 @@
 <div class="masthead">
-    <h3 class="text-muted">{{ site.site_name }}</h3>
+    <h3 class="text-muted"><a href="{{ site.production_url }}">{{ site.site_name | upcase }}</a></h3>
+
     <nav class="navbar navbar-inverse navbar-embossed" role="navigation">
+
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-09">
                 <span class="sr-only">Toggle navigation</span>
@@ -11,16 +13,15 @@
         <div class="collapse navbar-collapse" id="#navbar-collapse-09">
 
             <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">技术文章 <b class="caret"></b></a>
-                    <span class="dropdown-arrow"></span>
-                    <ul class="dropdown-menu">
-                        {% for cat in site.categories %}
-                        <li><a href="{{site.BASE_PATH}}/category.html#{{ cat[0] }}-ref">{{ cat[0] }}</a></li>
-                        {% endfor %}
-                    </ul>
+                <li class=" {% if page.navbar == '技术文章' %} active {% endif %}">
+                    <a href="{{ site.base_url }}/category.html">技术文章</a>
                 </li>
-                <li><a href="{{ site.base_url }}/about.html">关于</a></li>
+                <li class=" {% if page.navbar == '归档' %} active {% endif %}">
+                    <a href="{{ site.base_url}}/archives.html">归档</a>
+                </li>
+                <li class=" {% if page.navbar == '关于' %} active {% endif %}">
+                    <a href="{{ site.base_url }}/about.html">关于</a>
+                </li>
             </ul>
             <!--
             <form role="search" class="navbar-form navbar-right">

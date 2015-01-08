@@ -13,7 +13,7 @@ production_url: http://aicode.cn
 encoding: utf-8
 timezone: Asia/Shanghai
 highlighter: pygments
-paginate: 3
+paginate: 10
 
 defaults:
   -
@@ -25,3 +25,4 @@ defaults:
       author: 管宜尧
       disqus: true
       sidebar: true
+      navbar: 技术文章

@@ -1,0 +1,16 @@
+<!-- Pagination links -->
+<div class="pagination pagination-success">
+    {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}" class="btn btn-success previous">
+        <i class="fui-arrow-left"></i>
+        上一页
+    </a>
+    {% endif %}
+    <span class="page_number ">第 {{ paginator.page }} 页，共 {{ paginator.total_pages }} 页</span>
+    {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}" class="btn btn-success next">
+        下一页
+        <i class="fui-arrow-right"></i>
+    </a>
+    {% endif %}
+</div>
