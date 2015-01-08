@@ -36,6 +36,10 @@ footer {
   width: 140px;
   height: 140px;
 }
+.ai-logo {
+  height: 40px;
+  margin-bottom: 13px;
+}
 .ai-sidebar-erweima img {
   width: 200px;
 }
