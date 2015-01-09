@@ -9,6 +9,18 @@ footer {
 .blog-main img {
   width: 90%;
 }
+.blog-main .ai-link-rewrite h2 {
+  font-size: 40px;
+}
+.blog-main .ai-link-rewrite h3 {
+  font-size: 30px;
+}
+.blog-main .ai-link-rewrite h4 {
+  font-size: 24px;
+}
+.blog-main .ai-link-rewrite h5 {
+  font-size: 20px;
+}
 .ai-remark {
   margin-top: 30px;
   margin-bottom: 20px;

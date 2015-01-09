@@ -11,5 +11,8 @@ $(function() {
     // 文章内部链接改为新页面打开
     $('.ai-link-rewrite a').attr('target', '_blank');
 
-
+    // 正文表格增加样式
+    $(".ai-link-rewrite table").each(function (index) {
+        $(this).addClass("table table-bordered");
+    });
 });
