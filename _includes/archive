@@ -7,7 +7,7 @@
             {% capture next_year %}{{ post.previous.date | date: "%Y" }}{% endcapture %}
             {% capture next_month %}{{ post.previous.date | date: "%B" }}{% endcapture %}
 
-            {% if this_year != next_year and this_month != next_month %}
+            {% if this_year != next_year or this_month != next_month %}
                 <li><a href="{{ site.base_url }}/archives.html#{{this_year}}-{{this_month}}-ref">{{ this_month }} {{ this_year }}</a></li>
             {% endif %}
         {% endfor %}
