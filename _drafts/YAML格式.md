@@ -1,0 +1,191 @@
+###YAML格式
+
+根据官方的YAML站点所述，YAML是面向所有编程语言的对人类友好的数据序列化标准。
+
+尽管YAML格式可以描述复杂的嵌套数据结构，但是本章节只会描述使用YAML作为配置文件格式所需要的最小化的特性。
+
+YAML是用于描述数据的一款简单的语言。对于PHP，它可以描述简单的数据类型如string，boolean，floats或者integer等。但是在数组（序列）和哈希（映射）上与PHP是不同的。
+
+####标量
+
+标量数据类型语法与PHP语法类似。
+
+####字符串
+
+在YAML中，字符串可以包含在单引号或者双引号之间，当然，有时也可以不用引号包含。
+
+    A string in YAML
+    'A singled-quoted string in YAML'
+    "A double-quoted string in YAML"
+
+使用引号包含的样式在字符串内容的开始或者结束位置含有空格的情况下是非常有用的，因为对于不加引号的字符串来说，在解析它们的内容的时候，会去掉前后的空格。在字符串中包含特殊字符或者保留字符的情况下，需要使用引号包含。
+
+在使用单引号`'`的情况下，内容中任何单引号必须使用两个单引号转义。
+
+	'A single quote '' inside a single-quoted string'
+
+包含下列任意字符的字符串必须被引号包含。尽管你可以使用双引号`"`，但是，对于下列这些字符来说，最好使用单引号`'`，这样可以避免使用反斜线`\` 对他们转义：
+
+	:, {, }, [, ], ,, &, *, #, ?, |, -, <, >, =, !, %, @, \`
+
+双引号的样式提供了一种用于表述任意字符串的方式，通过使用`\`转义字符或者序列。例如，当需要嵌入一个`\n`或者Unicode字符时双引号是非常有用的。
+
+	"A double-quoted string in YAML\n"
+
+如果字符串包含下列任意控制字符，必须使用双引号才能转义
+
+	\0, \x01, \x02, \x03, \x04, \x05, \x06, \a, \b, \t, \n, \v, \f, \r, \x0e, \x0f, \x10, \x11, \x12, \x13, \x14, \x15, \x16, \x17, \x18, \x19, \x1a, \e, \x1c, \x1d, \x1e, \x1f, \N, \_, \L, \P
+
+最后，下列这些情况下，字符串必须使用引号包含：
+
+- 当字符串是`true`或者`false`时（否则会被认为是boolean值）
+- 当字符串是`null`或者`~`（否则会被认为是null）
+- 当字符串看起来是数字，例如整数(2, 14等)，浮点数(2.6，14.9等)，指数(12e7等)（否则它们会被认为是数字值）
+- 当字符串看起来是个日期（例如2014-12-31）（否则它们会被自动转义成UNIX时间戳）
+
+当字符串包含换行的时候，可以使用字面值样式，管道符号(`|`)表明字符串将跨越多行，在字面值样式下，换行符被保留。
+
+    |
+      \/ /| |\/| |
+      / / | |  | |__
+
+可选的，字符串也可以使用折叠样式，以`>`开始，接下来没一行都以空格开始。
+
+    >
+      This is a very long sentence
+      that spans several lines in the YAML
+      but which will be rendered as a string
+      without carriage returns.
+
+> 注意，上述例子中，没一行都有两个空格，它们并不会在最终的结果中显示。
+
+####数字
+
+    # an integer
+    12
+
+    # an octal
+    014
+
+    # an hexadecimal
+    0xC
+
+    # a float
+    13.4
+
+    # an exponential number
+    1.2e+34
+
+    # infinity
+    .inf
+
+####Null
+
+在YAML中，可以使用`null`或者`~`表示NULL。
+
+####Boolean
+
+在YAML中，使用`true`和`false`表示boolean值。
+
+####日期
+
+YAML使用ISO-8601标准表示日期格式。
+
+	2001-12-14t21:59:43.10-05:00
+
+	# simple date
+	2002-12-14
+
+####集合
+
+一个YAML文件很少只用来表述简单的标量类型数据。大多数时候，它会用来描述一个集合。集合可以是一个序列或者是元素的映射。在PHP数组中，序列和映射都存在。
+
+序列使用`-`和一个空格开始
+
+    - PHP
+    - Perl
+    - Python
+
+上述例子与下列PHP代码等价：
+
+	array('PHP', 'Perl', 'Python');
+
+映射是使用`:`分隔的键值对
+
+    PHP: 5.2
+    MySQL: 5.1
+    Apache: 2.2.20
+
+上述与下面的PHP代码类似
+
+	array('PHP' => 5.2, 'MySQL' => 5.1, 'Apache' => '2.2.20');
+
+> 在映射中，key可以是任意合法的标量。
+
+在`:`和值之间的空格是任意的
+
+    PHP:    5.2
+    MySQL:  5.1
+    Apache: 2.2.20
+
+YAML使用空格缩进描述嵌套的集合
+
+    "symfony 1.0":
+      PHP:    5.0
+      Propel: 1.2
+    "symfony 1.2":
+      PHP:    5.2
+      Propel: 1.3
+
+下面的PHP代码与上述的YAML等价
+
+    array(
+      'symfony 1.0' => array(
+        'PHP'    => 5.0,
+        'Propel' => 1.2,
+      ),
+      'symfony 1.2' => array(
+        'PHP'    => 5.2,
+        'Propel' => 1.3,
+      ),
+    );
+
+需要注意的是，在YAML文件中，必须使用一个或者多个空格进行缩进，而不能使用TAB制表符。
+
+也可以嵌套使用序列或者映射
+
+    'Chapter 1':
+      - Introduction
+      - Event Types
+    'Chapter 2':
+      - Introduction
+      - Helpers
+
+序列也可以使用方括号`[]`中逗号(`,`)分隔表示
+
+	[PHP, Perl, Python]
+
+映射可以使用花括号`{}`中使用`,`分隔键值对
+
+	{ PHP: 5.2, MySQL: 5.1, Apache: 2.2.20 }
+
+你可以混合搭配各种样式实现更好的可读性
+
+    'Chapter 1': [Introduction, Event Types]
+    'Chapter 2': [Introduction, Helpers]
+
+    "symfony 1.0": { PHP: 5.0, Propel: 1.2 }
+    "symfony 1.2": { PHP: 5.2, Propel: 1.3 }
+
+####注释
+
+在YAML中使用`#`开始表示注释内容：
+
+    # Comment on a line
+    "symfony 1.0": { PHP: 5.0, Propel: 1.2 } # Comment at the end of a line
+    "symfony 1.2": { PHP: 5.2, Propel: 1.3 }
+
+> YAML将会在解析的时候忽略注释，注释内容是不需要根据嵌套级别进行缩进的。
+
+
+原文：[The YAML Format](http://symfony.com/doc/current/components/yaml/yaml_format.html)
