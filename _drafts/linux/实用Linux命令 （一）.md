@@ -1,0 +1,395 @@
+##实用Linux命令（一）
+[TOC]
+
+
+-----
+
+####top命令
+监控系统的运行状态，并且可以按照cpu、内存、执行时间进行排序。
+
+![监控界面][]
+
+第一行中，`03:30:22`是当前时间，`up 39 min`是系统运行的运行了多长时间，`1 user`指出了当前有几个用户登录到系统，`load average`指的是系统负载，这后面的三个值分别是1分钟，5分钟，15分钟的系统负载平均值。
+
+> 如果仅仅需要第一行中的信息，可以使用`uptime`命令。
+
+第二行中，`Task`指出了当前系统有多少个进程，以及各种状态的进程统计信息。
+
+第三行是`%Cpu(s)`，代表了CPU占用比例，其中：
+
+- **us** 用户模式(*user* mode)
+- **sy** 系统模式(*system* mode)
+- **ni** 优先值(low priority user mode(*nice*))
+- **id** 空闲CPU百分比(*idle* task)
+- **wa** 等待输入输出的CPU事件百分比(I/O *waiting*)
+- **hi** servicing IRQs
+- **si** servicing soft IRQs
+- **st** *steal* (time given to other DomU instances)
+
+> **ni**是优先值(nice value)，也就是任务的优先值。优先值为负数，则说明任务有更高的优先级，正数值说明任务有更低的优先级，该值为0意味着进程都优先级没有调整。
+
+最后两行为内存信息，前者`Mem`为物理内存占用信息，后者`Swap`为交换分区占用信息。
+
+> 使用`-M`参数可以更加友好的显示内存占用信息。默认是以kb展示的，看起来比较费劲，使用`-M`之后会根据数值大小，以G/M为单位展示。
+
+最下面是进程的信息区域：
+
+- **PID** 进程的PID
+- **USER** 用户名，任务属主
+- **PR** 任务的优先级
+- **NI** 优先值
+- **VIRT** 虚拟映像（kb），任务当前使用的虚拟内存数量
+- **RES** 常驻物理内存占用量，RES=CODE+DATA
+- **SHR** 共享内存大小（kb）
+- **S** 进程状态（D-不可中断的睡眠，R-运行，S-睡眠，T-停止，Z-僵尸进程）
+- **%CPU** CPU使用量
+- **%MEM** 内存使用量
+- **TIME+** CPU时间，百分之一
+- **COMMAND** 程序名称
+
+> 参考[linux top命令详解](http://blog.csdn.net/sanshiqiduer/article/details/1933625)
+
+-----------
+####pgrep/pkill 命令
+根据名称或者其它属性查询（发送信号）进程信息。
+
+`pgrep`命令根据提供的条件查询进程的pid，查询条件是and方式的，对于同一个选项，使用『,』分隔可以按照or方式查询。
+
+
+    pgrep -u root sshd   # 查询进程名为sshd，并且属主是root的进程
+    pgrep -u root,daemon # 查询属主是root或者daemon的进程
+
+
+`pkill` 使用与`pgrep`类似，不过它不是用来查询进程pid，而是给进程发送信号，默认会发送 **SIGTERM**信号。
+
+例如:
+
+    $ pgrep -u root named # 查找named进程的pid
+    $ pkill -HUP syslogd  # 告诉syslogd重新读取配置文件
+
+
+> 要查看有哪些信号可用，可以使用`kill -l`列出所有的信号以及其数值。
+
+
+-----------
+####except命令
+
+- **send** 发送一个字符串给进程。
+- **expect** 等待来自进程返回的字符串。
+- **spawn** 开始一个命令。
+
+#####实现控制台SSH直接登陆Linux服务器
+
+    #!/usr/bin/expect
+
+    set timeout 20
+
+    set ip "IP地址"
+    set user "用户名"
+    set password "密码"
+
+    spawn ssh "$user\@$ip"
+
+    expect "$user@$ip's password:"
+    send "$password\r"
+
+    interact
+
+> 参考 [6 Expect Script Examples to Expect the Unexpected (With Hello World)
+](http://www.thegeekstuff.com/2010/10/expect-examples/)
+
+-----------
+####pstack命令
+`pstack`是一个shell脚本，用于打印正在运行的进程的栈跟踪信息，它实际上是`gstack`的一个链接。
+
+该命令只需要提供一个参数，进程的pid即可。
+
+    $ sudo pstack $(pgrep -uroot php-fpm)
+    [sudo] password for guanyy:
+    #0  0x000000380d8e86f3 in __epoll_wait_nocancel () from /lib64/libc.so.6
+    #1  0x00000000007ec4a4 in fpm_event_epoll_wait ()
+    #2  0x00000000007e1517 in fpm_event_loop ()
+    #3  0x00000000007dc887 in fpm_run ()
+    #4  0x00000000007e3bd8 in main ()
+
+
+-----------
+####strace命令
+`strace`命令用于跟踪系统调用和信号。主要用于诊断，调试程序，使用该命令能够打印出进程执行的系统调用信息。
+
+#####找出应用程序启动时读取的配置文件
+
+    $ strace php 2>&1 | grep php.ini
+    open("/usr/local/bin/php.ini", O_RDONLY) = -1 ENOENT (No such file or directory)
+    open("/usr/local/lib/php.ini", O_RDONLY) = 4
+    lstat64("/usr/local/lib/php.ini", {st_mode=S_IFLNK|0777, st_size=27, ...}) = 0
+    readlink("/usr/local/lib/php.ini", "/usr/local/Zend/etc/php.ini", 4096) = 27
+    lstat64("/usr/local/Zend/etc/php.ini", {st_mode=S_IFREG|0664, st_size=40971, ...}) = 0
+
+
+> 这里的`2>&1` 是将标准错误输出重定向到标准输出。
+
+#####查找为什么程序没有打开指定文件
+
+    $ strace -e open,access 2>&1 |grep your-filename
+
+
+`-e`参数指定了一个限定表达式用于指定要跟踪的事件和如何跟踪它们。
+
+    [qualifier=][!]value1[,value2]...
+
+
+这里的`qualifier`可选值为: `trace`, `abbrev`, `verbose`, `raw`, `signal`, `read`, `write`。默认的`qualifier`是`trace`。
+
+#####查看进程正在执行什么操作
+
+    root@dev:~# strace -p 15427
+    Process 15427 attached - interrupt to quit
+    futex(0x402f4900, FUTEX_WAIT, 2, NULL
+    Process 15427 detached
+
+
+`-p`指定了strace跟踪的进程的pid，这样就避免了每次执行strace时需要重启程序。
+
+#####查看进程的哪些操作比较耗时
+
+    root@dev:~# strace -c -p 11084
+    Process 11084 attached - interrupt to quit
+    Process 11084 detached
+    % time     seconds  usecs/call     calls    errors syscall
+    ------ ----------- ----------- --------- --------- ----------------
+     94.59    0.001014          48        21           select
+      2.89    0.000031           1        21           getppid
+      2.52    0.000027           1        21           time
+    ------ ----------- ----------- --------- --------- ----------------
+    100.00    0.001072                    63           total
+
+
+`-c`参数用于统计进程做了哪些系统调用，调用的时间统计等，并对这些信息做一个汇总显示。
+
+#####查看为什么xxx无法连接到服务器
+
+    $ strace -e poll,select,connect,recvfrom,sendto nc www.news.com 80
+    sendto(3, "\\24\\0\\0\\0\\26\\0\\1\\3\\255\\373NH\\0\\0\\0\\0\\0\\0\\0\\0", 20, 0, {sa_family=AF_NETLINK, pid=0, groups=00000000}, 12) = 20
+    connect(3, {sa_family=AF_FILE, path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+    connect(3, {sa_family=AF_FILE, path="/var/run/nscd/socket"}, 110) = -1 ENOENT (No such file or directory)
+    ...
+
+
+
+> 参考[5 simple ways to troubleshoot using Strace](http://www.hokstad.com/5-simple-ways-to-troubleshoot-using-strace)
+
+-----
+####nc命令
+该命令用于创建任意的TCP/UDP连接或者是监听连接。
+
+#####建立一个基本的C/S模型(文件远程复制)
+在Server1上，使用nc命令创建一个服务端：
+
+    server1 $ nc -l 1234
+
+
+在Server2上，使用nc作为客户端连接到server1
+
+    server2 $ nc server1的IP地址 1234
+
+
+这样就建立起一个简单的C/S连接，在server2中输入任何内容，在server1都可以接受到（同步显示）。
+
+上面的例子可以改造实现文件远程发送
+
+    server1 $ nc -l 1234 > filename.out
+
+在server2上
+
+    server2 $ nc server1的IP地址 1234 < filename.in
+
+
+> `-l` 指定了nc应该作为server端监听指定的端口
+
+#####模拟HTTP请求
+
+    # echo -n "GET / HTTP/1.0\r\n\r\n" | nc php.net 80
+    HTTP/1.1 400 Bad Request
+    Server: nginx/1.6.2
+    Date: Tue, 16 Dec 2014 08:09:35 GMT
+    Content-Type: text/html
+    Content-Length: 172
+    Connection: close
+
+    <html>
+    <head><title>400 Bad Request</title></head>
+    <body bgcolor="white">
+    <center><h1>400 Bad Request</h1></center>
+    <hr><center>nginx/1.6.2</center>
+    </body>
+    </html>
+
+
+#####端口扫描
+端口扫描的作用还是比较大的，使用`nc`可以方便的进行端口扫描。
+
+    # nc -z letv.com 1-100
+    Connection to letv.com 22 port [tcp/ssh] succeeded!
+    Connection to letv.com 80 port [tcp/http] succeeded!
+
+
+这里的`1-100`指定了扫描的端口范围，`-z`参数告诉nc命令只报告开放的端口。
+
+> 默认`nc`命令发送的是tcp请求，通过指定参数`-u`可以发送udp请求。
+
+#####目录传输
+
+下面例子中，将server2的phpredis-master目录拷贝到server1。
+
+server1:
+
+    # nc -l 1234|tar zxvf -
+
+server2:
+
+    # tar zcvf - phpredis-master|nc server1的IP地址 1234
+
+
+> 参考[Linux nc命令详解](http://blog.csdn.net/wang7dao/article/details/7684998)
+
+-----
+####pstree命令
+该命令用于显示进程树，以树的形式显示正在运行的进程，树的根节点是指定的pid（忽略则为init进程）。
+
+
+    [root@cdn ~]# pstree -p $(pgrep -uroot php-fpm)
+    php-fpm(5445)─┬─php-fpm(5446)
+                  ├─php-fpm(5447)
+                  ├─php-fpm(5448)
+                  ├─php-fpm(7540)
+                  ├─php-fpm(21639)
+                  └─php-fpm(24727)
+
+
+
+-----
+####ss命令
+`ss`命令用于显示socket的统计信息。
+
+#####显示socket的汇总信息
+
+`-s`选项用于显示汇总信息。
+
+
+    # ss -s
+    Total: 247 (kernel 290)
+    TCP:   214 (estab 68, closed 130, orphaned 0, synrecv 0, timewait 130/0), ports 135
+
+    Transport Total     IP        IPv6
+    *	  290       -         -
+    RAW	  0         0         0
+    UDP	  11        7         4
+    TCP	  84        81        3
+    INET	  95        88        7
+    FRAG	  0         0         0
+
+
+#####查看所有打开的网络端口
+
+`-l`选项用于列出当前正在监听的socket。
+
+
+    # ss -l
+    State      Recv-Q Send-Q      Local Address:Port          Peer Address:Port
+    LISTEN     0      128             127.0.0.1:smux                     *:*
+    LISTEN     0      128             127.0.0.1:9000                     *:*
+    LISTEN     0      50                      *:3306                     *:*
+    LISTEN     0      1024                   :::11211                   :::*
+
+
+使用`ss -pl`可以查看使用网络端口的进程名称，这里的`-p`选项用于显示进程信息。
+
+    # ss -pl
+    State      Recv-Q Send-Q      Local Address:Port          Peer Address:Port
+    LISTEN     0      128             127.0.0.1:smux                     *:*        users:(("snmpd",1256,8))
+    LISTEN     0      50                      *:3306                     *:*        users:(("mysqld",17651,10))
+    LISTEN     0      1024                   :::11211                   :::*        users:(("memcached",1849,34))
+    LISTEN     0      1024                    *:11211                    *:*        users:(("memcached",1849,33))
+    LISTEN     0      511             127.0.0.1:6379                     *:*        users:(("redis-server",1403,4))
+
+
+> 使用`ss -pl|grep 端口号`查看端口被那个进程占用。
+
+#####显示所有的TCP/UDP Socket
+
+参数`-a`(`--all`)用于显示所有的socket，`-t`指的是TCP， `-u`是UDP, `-w`是RAW, `-x`是UNIX。
+
+    # ss -t -a
+    # ss -u -a
+    # ss -w -a
+    # ss -x -a
+
+
+
+
+> 参考[ss: Display Linux TCP / UDP Network and Socket Information
+](http://www.cyberciti.biz/tips/linux-investigate-sockets-network-connections.html)
+
+
+-----
+####w/who命令
+`w`命令用于查看当前哪些用户登录到系统和他们正在做什么，`who`命令仅用于查看哪些用户登录系统。
+
+    # w
+     15:39:08 up 126 days, 22:35,  3 users,  load average: 0.02, 0.05, 0.02
+    USER     TTY      FROM              LOGIN@   IDLE   JCPU   PCPU WHAT
+    root     pts/0    10.58.92.228     13:29    1:35m  0.03s  0.03s -bash
+    root     pts/1    10.58.93.56      10:32    5:06m  0.00s  0.00s -bash
+    root     pts/4    10.58.88.20      12:29    0.00s  0.20s  0.00s w
+    # who
+    root     pts/0        2014-12-18 13:29 (10.58.92.228)
+    root     pts/1        2014-12-18 10:32 (10.58.93.56)
+    root     pts/4        2014-12-18 12:29 (10.58.88.20)
+
+
+-----
+####iostat
+报告CPU的统计信息，设备、分区、网络文件系统（NFS）的I/O统计信息。
+
+
+    # iostat
+    Linux 2.6.32-903.279.9.1.el6.x86_64 (localhost) 	2014年12月18日 _x86_64_	(2 CPU)
+
+    avg-cpu:  %user   %nice %system %iowait  %steal   %idle
+               0.35    0.00    0.34    0.42    0.15   98.74
+
+    Device:            tps   Blk_read/s   Blk_wrtn/s   Blk_read   Blk_wrtn
+    vda               4.01         0.35        56.76    3866731  622586087
+    dm-0              3.29         0.09        26.33     989378  288796192
+    dm-1              3.45         0.05        27.60     554922  302727584
+    dm-2              0.32         0.21         2.83    2296845   31060799
+
+
+这里对几个性能指标进行解释：
+
+- **tps** 每秒发送的I/O请求数
+- **Blk_read/s** 每秒读取的block数
+- **Blk_wrtn/s** 每秒写入的block数
+- **Blk_read** 读取的block数
+- **Blk_wrtn** 写入的block数
+
+> 通过指定`-d`参数可以设定自动按照指定时间间隔显示统计信息。例如，下列命令每隔2s显示一次。
+
+    $ iostat -d 2
+
+
+-----
+####iptraf 命令：实时网络统计
+交互式的IP网络实时监控工具，图形化界面，比较方便。
+
+    # iptraf
+
+
+界面如下:
+![iptraf][]
+
+> 参考[20 Linux System Monitoring Tools Every SysAdmin Should Know](http://www.cyberciti.biz/tips/top-linux-monitoring-tools.html)
+
+[监控界面]: ./resources/top.png
+[iptraf]: ./resources/iptraf.png
