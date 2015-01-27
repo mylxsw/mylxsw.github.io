@@ -1,5 +1,6 @@
 ###UNIX环境高级编程笔记
 
+
 下图是ISO-C标准提供的头文件
 
 ![ISO-C-HEADER][]
@@ -22,6 +23,7 @@
     #include <fcntl.h>
     int open(const char *path, int oflag, ... /* mode_t mode */ );
     int openat(int fd, const char *path, int oflag, ... /* mode_t mode */ );
+
 
 
 [ISO-C-HEADER]: ./resources/iso-c-headers.png
