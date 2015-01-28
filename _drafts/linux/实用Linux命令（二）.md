@@ -12,7 +12,17 @@
 
 ####time命令： 统计程序执行时间
 
-保留
+用于统计程序执行时间，这些事件包含程序从被调用到终止的时间，用户CPU时间，系统CPU时间。
+
+    $ time ls
+    bakup                PDO-1.0.3.tgz     rinetd.tar.gz     yaf-2.2.9.tgz
+    channel.xml          package2.xml      PDO_MYSQL-1.0.2      xhprof-0.9.4      zendopcache-7.0.3
+    go-pear.phar         package.xml       PDO_MYSQL-1.0.2.tgz  xhprof-0.9.4.tgz  zendopcache-7.0.3.tgz
+    PDO-1.0.3            rinetd            yaf-2.2.9
+
+    real    0m0.002s
+    user    0m0.000s
+    sys 0m0.001s
 
 ####tee命令
 
@@ -41,6 +51,196 @@
 
     # yum install perf
 
+`perf`命令非常强大，详细介绍的话篇幅比较长，可以阅读这篇文章 [Perf -- Linux下的系统性能调优工具][]。
+
+    用法: perf [--version] [--help] COMMAND [ARGS]
+
+     最常用的perf命令:
+       annotate        读取perf.data (使用perf record创建)文件并且显示标注的代码
+       archive         Create archive with object files with build-ids found in perf.data file
+       bench           进行基准测试的框架工具集
+       buildid-cache   Manage build-id cache.
+       buildid-list    List the buildids in a perf.data file
+       diff            Read perf.data files and display the differential profile
+       evlist          List the event names in a perf.data file
+       inject          Filter to augment the events stream with additional information
+       kmem            Tool to trace/measure kernel memory(slab) properties
+       kvm             Tool to trace/measure kvm guest os
+       list            列出所有事件类型的符号
+       lock            分析锁事件
+       mem             分析对内存的访问
+       record          运行一个命令并且记录它的分析结果到perf.data文件中
+       report          读取perf.data文件并且显示分析结果
+       sched           Tool to trace/measure scheduler properties (latencies)
+       script          Read perf.data (created by perf record) and display trace output
+       stat            运行一个命令并且收集性能计数统计信息
+       test            运行可用性测试
+       timechart       Tool to visualize total system behavior during a workload
+       top             系统分析工具.
+       trace           受strace启发创建的工具
+       probe           定义一个新的动态跟踪点
+
+     See 'perf help COMMAND' for more information on a specific command.
+
+#####perf stat 
+
+`perf stat`通过概括精简的方式提供被调试程序运行的整体情况和汇总数据。
+
+创建如下C程序test.c
+
+    #include <stdio.h>
+
+    int main()
+    {
+        int i = 1;
+        while (1) {
+            if (i == 100000) break;
+            i ++;
+        }
+        return 0;
+    }
+
+编译`gcc test.c -o test`。
+
+    $ perf stat ./test
+
+     Performance counter stats for './test':
+
+              0.837322 task-clock                #    0.747 CPUs utilized          
+                     1 context-switches          #    0.001 M/sec                  
+                     0 CPU-migrations            #    0.000 M/sec                  
+                    98 page-faults               #    0.117 M/sec                  
+               269,259 cycles                    #    0.322 GHz                     [90.39%]
+               897,270 stalled-cycles-frontend   #  333.24% frontend cycles idle   
+               226,746 stalled-cycles-backend    #   84.21% backend  cycles idle   
+               764,602 instructions              #    2.84  insns per cycle        
+                                                 #    1.17  stalled cycles per insn
+               267,843 branches                  #  319.881 M/sec                  
+                 3,467 branch-misses             #    1.29% of all branches         [80.37%]
+
+           0.001121130 seconds time elapsed
 
 
-> 参考: [Perf -- Linux下的系统性能调优工具](http://www.ibm.com/developerworks/cn/linux/l-cn-perf1/)
+第一个`task-clock`是CPU利用率，该值比较高，说明该程序属于CPU密集型。第二个`context-switches`是进程上下文切换次数，频繁的切换次数应该是要避免的。
+
+#####perf top
+
+用于实时显示当前系统的性能统计信息。该命令主要用来观察整个系统当前的状态，比如可以通过查看该命令的输出来查看当前系统最耗时的内核函数或某个用户进程。
+
+> 执行该命令需要root权限。
+
+使用方法如下
+
+    $ sudo perf top
+
+程序会与top命令类似，动态输出以下内容
+
+    Samples: 1K of event 'cpu-clock', Event count (approx.): 8071695
+     39.60%  [kernel]             [k] __do_softirq
+     13.46%  [kernel]             [k] _raw_spin_unlock_irqrestore
+      9.37%  [kernel]             [k] VbglGRPerform
+      8.47%  [kernel]             [k] e1000_xmit_frame
+      6.01%  [kernel]             [k] finish_task_switch
+      5.82%  [kernel]             [k] e1000_clean
+      5.15%  [kernel]             [k] native_read_tsc
+      4.75%  [kernel]             [k] kmem_cache_free
+      1.32%  [kernel]             [k] tick_nohz_idle_enter
+      1.28%  libc-2.17.so         [.] __strstr_sse2
+      1.22%  libc-2.17.so         [.] __memset_sse2
+      0.82%  libc-2.17.so         [.] __GI___strcmp_ssse3
+      0.42%  libpython2.7.so.1.0  [.] 0x000000000007e7c6
+      0.42%  libc-2.17.so         [.] __strchrnul
+      0.39%  [kernel]             [k] e1000_alloc_rx_buffers
+      0.38%  libz.so.1.2.7        [.] 0x0000000000002d76
+      0.24%  [kernel]             [k] tick_nohz_idle_exit
+      0.21%  [kernel]             [k] kfree
+
+#####perf report/record
+
+使用 top 和 stat 之后，您可能已经大致有数了。要进一步分析，便需要一些粒度更细的信息。比如说您已经断定目标程序计算量较大，也许是因为有些代码写的不够精简。那么面对长长的代码文件，究竟哪几行代码需要进一步修改呢？这便需要使用 perf record 记录单个函数级别的统计信息，并使用 perf report 来显示统计结果。
+
+创建新的C程序test3，代码如下
+
+    #include <stdio.h>
+
+    void test();
+
+    int main()
+    {
+      test();
+      return 0;
+    }
+
+    void test()
+    {
+      long i;
+      for (i = 0; i < 10000000; i ++) {
+        
+      }
+      puts("finished");
+    }
+
+编译后，执行如下命令
+    
+    $ perf record ./test3
+    $ perf report
+
+输出以下内容
+
+    Samples: 68  of event 'cpu-clock', Event count (approx.): 17000000
+     97.06%  test3  test3              [.] test
+      1.47%  test3  [kernel.kallsyms]  [k] __do_softirq
+      1.47%  test3  [kernel.kallsyms]  [k] queue_work_on
+
+从中可以看到，大部分时间都消耗在了test函数中。
+
+> `perf record`命令增加`-g`参数可以记录函数的调用图信息。更多详情参考: [Perf -- Linux下的系统性能调优工具][]
+
+####lsof命令: 列出打开的文件
+
+工具`lsof`是一个可以列出操作系统打开的文件的工具，在Linux系统中，任何事物都是以文件的形式存在，通过文件不仅可以访问常规文件，还可以访问网络连接和硬件设备。
+
+在终端下直接输入`lsof`命令，会列出当前系统打开的所有文件，因为它需要列出核心内存和各种文件，所以必须使用root用户运行才能显示详细的信息。
+
+    COMMAND     PID      USER   FD      TYPE             DEVICE  SIZE/OFF       NODE NAME
+    init          1      root  cwd       DIR              253,0      4096          2 /
+    init          1      root  rtd       DIR              253,0      4096          2 /
+    init          1      root  txt       REG              253,0    150352      10973 /sbin/init
+    init          1      root  mem       REG              253,0     65928     264638 /lib64/libnss_files-2.12.so
+    init          1      root  mem       REG              253,0   1922112     265339 /lib64/libc-2.12.so
+    init          1      root  mem       REG              253,0     93224     277540 /lib64/libgcc_s-4.4.6-20120305.so.1
+    init          1      root  mem       REG              253,0     47064     267086 /lib64/librt-2.12.so
+    ...
+
+这里的***COMMAND***是进程名称，***PID,USER***分别指的是进程的ID和进程所有者，***FD***是文件描述符，***TYPE***是文件类型，***DEVICE***是磁盘名称，***SIZE***是文件大小，***NODE***是索引节点（文件在磁盘上的标识），***NAME***是打开文件的确切名称。
+
+对于***FD***的值，*cwd*表示当前工作目录，*Lnn*表示类库引用，*mem*表示内存映射文件，*rtd*表示根目录，*pd*表示父目录，*txt*表示进程的数据和代码。
+
+#####常用参数及说明
+
+- lsof **filename** 显示打开指定文件的所有进程
+- lsof **-a** 表示两个参数都必须满足时才显示结果
+- lsof **-c string** 显示COMMAND列中包含指定字符的进程所有打开的文件
+- lsof **-u username** 显示所属user进程打开的文件
+- lsof **-g gid** 显示归属gid的进程情况
+- lsof **+d /DIR/** 显示目录下被进程打开的文件
+- lsof **+D /DIR/** 同上，但是会搜索目录下的所有目录，时间相对较长
+- lsof **-d FD** 显示指定文件描述符的进程
+- lsof **-n** 不将IP转换为hostname，缺省是不加上-n参数
+- lsof **-i** 用以显示符合条件的进程情况
+- lsof **-p PID** 选择指定PID
+- lsof **-i[46] [protocol][@hostname|hostaddr][:service|port]**
+    46: IPv4 or IPv6
+    protocol: TCP or UDP
+    hostname: Internet host name
+    hostaddr: IPv4地址
+    service: /etc/service中的 service name (可以不只一个)
+    port: 端口号 (可以不只一个)
+
+> 参考: [百度文库][]
+
+
+
+
+[Perf -- Linux下的系统性能调优工具]:http://www.ibm.com/developerworks/cn/linux/l-cn-perf1/
+[百度文库]:http://baike.baidu.com/link?url=VXbFBeisjSpMDZzkUQlNiDZrCAi6p7q1TJcgbCT4J4k4mxcU2fyoYOj1Vz8KCBBAKeTJ5qNeeqTnGYhMAh-zfK
