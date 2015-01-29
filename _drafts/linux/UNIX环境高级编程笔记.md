@@ -18,7 +18,6 @@
 
 对内核来说，每个打开的文件都会分配一个文件描述符，内核使用文件描述符操作文件，在UNIX系统中，通常`0`，`1`，`2`三个描述符作为`标准输入stdin`，`标准输出stdout`，`标准错误输出stderr`的文件描述符。在POSIX兼容的应用中，使用符号`STDIN_FILENO`，`STDOUT_FILENO`，`STDERR_FILENO`以提高程序的可读性(这些常量在<unistd.h>头文件中)。文件描述符的范围从0到`OPEN_MAX - 1`之间。
 
-#####文件打开/创建函数
 
     #include <fcntl.h>
     int open(const char *path, int oflag, ... /* mode_t mode */ );
@@ -49,6 +48,41 @@
     currpos = lseek(fd, 0, SEEK_CUR);
 
 这种方式也用来判断文件是否是可以seek，如果文件描述符指向的是pipe，FIFO或者是socket，`lseek`将会设置`errno`为`ESPIPE`并且返回-1。
+
+    #include <unistd.h>
+    ssize_t read(int fd, void *buf, size_t nbytes);
+
+从打开的文件中读取内容，如果读取成功，返回读取到的字节数，如果遇到文件结尾，则返回0。
+
+    #include <unistd.h>
+    ssize_t write(int fd, const void *buf, size_t nbytes);
+
+向打开的文件写入内容，在写入成功时，返回值与第三个参数nbytes相同，失败时返回-1。
+
+    #include <unistd.h>
+    ssize_t pread(int fd, void *buf, size_t nbytes, off_t offset);
+    ssize_t pwrite(int fd, const void *buf, size_t nbytes, off_t offset);
+
+pread/pwrite函数用于执行原子的I/O读写，这两个函数的执行都是原子的，首先会执行seek到指定偏移量，然后读写文件，这中间是不可中断的，另外这些操作并不会更新当前文件的偏移。
+
+> 原子操作指的是一个由多个操作组合而成的一个操作，这个操作是不可中断的。
+
+    #include <unistd.h>
+    int dup(int fd);
+    int dup2(int fd, int fd2);
+
+上述两个函数可以用于复制一个已经存在的文件描述符。使用dup函数，能够保证返回的新的文件描述符是当前空闲的最小文件描述符，而使用dup2函数则通过第二个参数fd2指定新的文件描述符，如果新的文件描述符已经打开，则会先关闭它。
+
+> 对于`dup2`函数，文件描述符fd2的`FD_CLOEXEC`标记被清除，所以，如果进程调用了exec函数该描述符可以保持打开状态。
+
+    #include <unistd.h> 
+    int fsync(int fd); 
+    int fdatasync(int fd);
+    void sync(void);
+
+函数`sync`会将块缓冲区中的数据加入到写磁盘队列中并返回，不会等待真正的磁盘写入操作完成，通常系统守护进程会30s调用一次sync，以确保及时刷新内核的块缓冲区到磁盘上。命令`sync`就是调用了`sync`函数。
+
+函数`fsync`只针对单个文件进行操作，它会等待磁盘写入完成才返回，确保数据正常写入。函数`fdatasync`与`fsync`类似，区别是它只会影响文件的数据部分，而`fsync`则会同步的更新文件的属性信息。
 
 
 
