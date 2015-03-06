@@ -1,4 +1,8 @@
-##Cent OS 编译安装 Apache 服务器
+---
+categories: [运维]
+tags: [Linux, Apache]
+thumb: /assets/images/thumb/apache.jpg
+---
 
 本文讲述了在 CentOS 服务器下编译安装 Apache 服务器的步骤以及遇到的问题解决办法。
 
