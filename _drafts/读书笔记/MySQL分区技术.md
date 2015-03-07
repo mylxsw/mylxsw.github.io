@@ -1,0 +1,116 @@
+####1 分区相关####
+MySQL5.6中，分区技术只支持```水平分区```，而不支持```垂直分区```，分区支持大部分的存储引擎，但是MERGE, CSV, FEDERATED存储引擎不支持。
+
+使用```KEY```或者```LINEAR KEY```进行分区是支持NDB（网络数据库）的，但是其他分区方式不支持。
+
+在MySQL中查看是否是支持分区技术，使用命令 ```SHOW PLUGINS``` 进行查看，如果存在名称为 ```partition``` 的插件，状态为 ```ACTIVE``` 则说明分区技术可用。
+
+> MySQL5.6支持显式的分区查询，如 ```SELECT * FROM T PARTITION(p0, p1) WHERE c < 5```，可以只从p0,p1分区进行查询
+
+
+支持的分区类型：
+
+- **RANGE** 根据给定列的值的范围进行分区。
+- **LIST** 与RANGE类似，不过它通过判断给定列的值是否在独立的值的集合中进行分区。
+- **HASH** 这种分区根据对列进行操作的自定义表达式的值进行分区。这个自定义的函数可以包含任何可用的MySQL表达式，但是需要产生一个非负的值，扩展类型有```LINEAR HASH```.
+- **KEY** 这种分区方式与HASH类似，区别是只需要提供一列或者多列的值，通过MySQL自己的哈希函数进行计算，扩展类型有```LINEAR KEY```.
+
+> 常用的分区方式可以通过```日期```， ```时间``` 进行分区。当使用```KEY```或者```LINEAR KEY``` 方式进行分区的时候，可以直接使用```TIME```, ```DATETIME```, ```DATE```作为分区列而不需要执行任何的修改（常用时间函数：```TO_DAYS()```, ```YEAR```, ```TO_SECONDS```, ```WEEKDAY()```,```MONTH```等）。
+
+####2 主从相关####
+主库和从库都需要配置一个唯一的ID（```server-id```)， 每一个从库都必须配置主库的host名， 日志文件名和配置文件中的位置。
+
+#####2.1 配置Master#####
+修改 ```my.cnf``` 或者 ```my.ini``` 文件，在```[mysqld]```部分，增加（去掉注释）下列选项：
+<pre>
+[mysqld]
+log-bin=mysql-bin
+server-id=1
+</pre>
+修改后，重启mysql服务
+
+> 如果没有设置```server-id```或者是设置其为```默认值 0```，master将会拒绝所有slave的连接请求。
+
+> 使用```InnoDB```的事务在进行复制的时候，应该设置```innodb_flush_log_at_trx_commit=1```和```sync_binlog=1```以获取最佳的稳定性。
+
+> 确保 ```skip-networking```选项是禁止的，否则如果网络被禁止了，从库将无法与主库进行交流。
+
+主库中需要为从库创建连接用户，主库上的任何具有```REPLICATION SLAVE```权限的用户都可以作为从库的连接用户。
+<pre>
+mysql&gt; CREATE USER 'repl'@'%.mydomain.com' IDENTIFIED BY 'slavepass';
+mysql&gt; GRANT REPLICATION SLAVE ON *.* TO 'repl'@'%.mydomain.com';
+</pre>
+
+如果在主库上已经存在数据了，在与从库进行同步之前，必须先停止主库上的处理进程，然后获取当前二进制日志文件的坐标并dump它的数据。   
+下面的步骤用于获取主库的二进制日志的坐标：
+	
+1. 使用命令行控制台连接到主库上，执行如下命令：
+	<pre>mysql> FLUSH TABLES WITH READ LOCK;</pre>
+	> 使用 ```UNLOCK TABLES``` 释放锁
+2. 使用另一个到主库的会话，使用```SHOW MASTER STATUS```查看当前的二进制日志文件名和位置.
+	<pre>
+	mysql &gt; SHOW MASTER STATUS;
+	+------------------+----------+--------------+------------------+
+	| File             | Position | Binlog_Do_DB | Binlog_Ignore_DB |
+	+------------------+----------+--------------+------------------+
+	| mysql-bin.000003 | 73       | test         | manual,mysql     |
+	+------------------+----------+--------------+------------------+
+	</pre>
+
+> 如果在启用log-bin之前，主库已经运行一段时间了，则使用```SHOW MASTER STATUS```命令查看到的日志文件名和位置将会是空的，在这种情况下，在从库中指定日志文件和位置分别为```''```和```4```.
+
+如果在进行从库同步复制之前，主库中已经存在数据了，请保持读锁，使用下面的方法将主库的数据复制到从库中。    
+使用```mysqldump```创建要复制的所有数据库的一个快照，然后导入到从库中。
+<pre>
+# mysqldump -uroot --lock-all-tables --events --all-databases --master-data > dbdump.db
+</pre>
+
+> 导入dbdump.db文件，使用命令```shell> mysql < dbdump.db```
+
+
+#####2.2 配置slave#####
+修改配置文件
+<pre>
+[mysqld]
+server-id=2
+</pre>
+
+在从库中，为了进行复制过程，并不需要启用log-bin。但如果在从库中启用log-bin的话，你可以在从库上进行二进制日志备份和崩溃后的恢复，或者将从库作为一个复杂的复制拓扑网络的一部分（例如，从库作为一个其它从库的主库）。
+
+建立从库到主库的连接：
+<pre>
+mysql&gt; CHANGE MASTER TO
+    -&gt;     MASTER_HOST='master_host_name',
+    -&gt;     MASTER_USER='replication_user_name',
+    -&gt;     MASTER_PASSWORD='replication_password',
+    -&gt;     MASTER_LOG_FILE='recorded_log_file_name',
+    -&gt;     MASTER_LOG_POS=recorded_log_position;
+</pre>
+例如：
+<pre>
+mysql&gt; change master to master_host='10.58.91.4', master_user='repl', master_password='888888',master_log_file='mysql-bin.000002', master_log_pos=385;
+</pre>
+> 注意： 复制不能使用UNIX socket文件，只能使用TCP/IP连接主库。
+
+启动从库
+<pre>mysql&gt; start slave;</pre>
+
+> 如果出现无法连接的问题，请检查是否服务器iptables对端口有限制
+
+
+####3 常用命令####
+授权任意主机以```root```方式访问
+<pre>
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION
+</pre>
+
+查看server-id
+<pre>
+mysql> show variables like 'server_id';
++---------------+-------+
+| Variable_name | Value |
++---------------+-------+
+| server_id     | 0     |
++---------------+-------+
+1 row in set (0.01 sec)
+</pre>
