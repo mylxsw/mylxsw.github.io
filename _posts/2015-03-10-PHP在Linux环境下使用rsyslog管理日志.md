@@ -1,6 +1,10 @@
-##Cent OS 6 日志查看与管理
+---
 
-[TOC]
+categories: [运维,PHP]
+tags: [Linux, PHP]
+thumb: /assets/images/thumb/rsyslog_message_flow.jpg
+
+---
 
 在 Linux 系统中，日志文件记录了系统中包括内核、服务和其它应用程序等在内的运行信息。
 在我们解决问题的时候，日志是非常有用的，它可以帮助我们快速的定位遇到的问题。
@@ -63,7 +67,7 @@ Rsyslog 的主要配置文件为 **/etc/rsyslog.conf** 文件，在配置文件�
 
 | 比较操作        | 描述
 |----------------|-------------------------------------
-| contains       | 匹配提供的字符串值是否是属性的一部分，如果不区分大小写，使用`contains_i` 
+| contains       | 匹配提供的字符串值是否是属性的一部分，如果不区分大小写，使用`contains_i`
 | isequal        | 比较属性和值是否相等
 | startswith     | 属性是否以指定字符串开始(`startswith_i`)
 | regex          | 正则表达式(POSIX BRE 基本正则)匹配
@@ -173,6 +177,87 @@ Action定义了当匹配指定的 filter 的时候，执行什么操作。
 
 > 在新的配置格式中(rsyslog v6)，已经不在使用这种方式的指令，但是它们仍然是可用的。
 
+###队列
+
+在 rsyslog 中，队列用来传输数据，当 rsyslog 接收到一个消息的时候，首先传递消息预处理器，然后加入到主消息队列，接下来消息会从队列中取出传递给规则处理器。
+
+![Message Flow in Rsyslog][rsyslog_message_flow]
+
+规则处理器是一个解析过滤引擎，它会基于配置文件中定义的规则，执行相应的动作(action)，每一个动作都有自己的动作队列，消息通过这个队列发送到对应的动作处理器，然后输出。
+
+> 对于同一个消息来说，可以同时传递这个消息给多个动作队列。
+
+####定义队列
+
+在配置文件`/etc/rsyslog.conf`文件中
+
+	$objectQueueType queue_type
+
+这里的队列类型可选值为 **direct** , **linkedlist** , **fixedarray** (内存队列), 或者 **disk** 。
+
+默认情况下，对于主队列，使用的是FixedArray队列（10000个消息长度），动作队列采用的是direct 队列。
+
+
+###PHP 使用 syslog 输出日志
+
+在PHP 中，调用系统日志系统的函数有三个
+
+	bool openlog ( string $ident , int $option , int $facility )
+	bool syslog ( int $priority , string $message )
+	bool closelog ( void )
+
+函数`openlog`用于打开到系统日志系统的连接，第一个参数`$ident`是一个字符串，syslog 会将该字符串自动加到使用`syslog`函数输出的所有日志消息的前面。第二个参数是日志选项，第三个参数是记录日志的设施。
+
+> 函数`openlog()`和`closelog()`是可选的。
+
+例如，我们在`/etc/rsyslog.conf`配置文件中增加如下配置
+
+	local5.*     /tmp/php_test.log
+
+增加后需要重启 rsyslog 进程(`sudo /etc/init.d/rsyslog restart`)
+
+在 PHP 脚本中，执行如下操作
+
+    <?php
+    openlog("LogHeader", LOG_PID, LOG_LOCAL5);
+    syslog(LOG_DEBUG, "Hello, Logger");
+
+执行上述脚本，我们可以在`/tmp`目录中看到出现名为`php_test.log`的文件
+
+	Mar 10 14:47:04 vm-hp LogHeader[8261]: Hello, Logger
+
+第一部分`Mar 10 14:47:04`为日志时间，第二部分`vm-hp`为主机的 HOSTNAME , 我们在 调用`openlog`函数的时候，指定了 `indent`为`LogHeader`， 同时在日志中加入进程的 PID（LOG_PID）。
+
+上述日志消息，如果要使用模板的话，是下面这样的
+
+	$template LOG_TMP,"%timegenerated% %HOSTNAME% %msg%"
+    local5.*     /tmp/php_test.log;LOG_TMP
+
+我们将所有支持的模板属性变量输出如下
+
+    msg:  Hello, Logger,
+    rawmsg: <175>Mar 10 15:52:49 LogHeader[13845]: Hello, Logger, 
+    HOSTNAME: vm-28-234-pro01-hp, 
+    FROMHOST: vm-28-234-pro01-hp, 
+    syslogtag: LogHeader[13845]:, 
+    programname: LogHeader, 
+    PRI: 175, 
+    PRI-text: local5.debug, 
+    IUT: 1, 
+    syslogfacility: 21, 
+    syslogfacility-text: local5, 
+    syslogseverity: 7, 
+    syslogseverity-text: debug, 
+    timereported: Mar 10 15:52:49, 
+    TIMESTAMP: Mar 10 15:52:49,
+    timegenerated: Mar 10 15:52:49,
+    PROTOCOL-VERSION: 0, 
+    STRUCTURED-DATA: -, 
+    APP-NAME: LogHeader, 
+    PROCID: 13845, 
+    MSGID: -
+
+
 ---
 
 参考: [Red Hat Enterprise linux 6 Deployment Guide: Chapter 23. Viewing and Managing Log Files](https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Deployment_Guide/ch-Viewing_and_Managing_Log_Files.html)
@@ -180,3 +265,4 @@ Action定义了当匹配指定的 filter 的时候，执行什么操作。
 
 
 [RainerScript]:http://www.rsyslog.com/doc/rainerscript.html
+[rsyslog_message_flow]:/assets/images/rsyslog_message_flow.png
