@@ -1,0 +1,74 @@
+##TIME_WAIT及其对协议和可扩展的客户端服务器系统设计的影响
+
+在构建基于 TCP 协议的 C/S 系统的时候，经常会因为一些简单的错误而导致验证的影响系统的可扩展性。 其中一些错误是因为对`TIME_WAIT`状态不理解导致的。 在本文中，我将会讲解为什么要存在`TIME_WAIT` 状态，它的存在所造成的一些问题以及什么时候你应该围绕着它工作。
+
+`TIME_WAIT`在 TCP 的状态流程图中通常是很容易被误解的一个状态。它是表示socket可以进入和留存相当长一段时间的状态，如果你的系统中有很多 socket 处于`TIME_WAIT`状态，那么当你需要创建新的 socket 连接的时候可能会受到影响，这也会影响到你的程序的扩展性。很多人对于如何以及为何 socket 要在第一个地方以`TIME_WAIT`状态结束，这里没有什么神秘的，从下面的 TCP 状态流程图中可以看出，`TIME_WAIT`状态是TCP 客户端断开连接之后的最终状态。
+
+![TCP-StateTransitionDiagram-NormalTransitions][]
+
+尽管状态图显示的 `TIME_WAIT` 是客户端结束连接的最终状态，但这并不是说一定是客户端的结束状态才是`TIME_WAIT`，实际上，这是主动关闭连接(active close)的设备（不管是服务端还是客户端）的最终状态。什么是主动关闭连接呢？
+
+如果一个 TCP 的终端首先对这个连接调用 Close() 关闭连接，就说这个终端发起了主动关闭。在很多协议和 C/S 系统中，这是指的客户端。在 HTTP 和 FTP 服务器上，通常指的是服务端。实际的终端以 `TIME_WAIT`状态终止的事件序列图如下所示。
+
+![TCP-StateTransitionDiagram-ClosureTransitions][]
+
+现在我们已经知道socket如何以`TIME_WAIT`状态结束连接，理解为什么要存在这个状态以及为什么它可能造成一些潜在的问题是非常有用的。
+
+`TIME_WAIT`通常也称为`2MSL`等待状态。这是因为切换到`TIME_WAIT`状态的socket会保持2倍的最大段生命周期(MSL)的延迟时间。MSL是TCP协议数据报中，任意一段数据在网络上被丢弃之前保持可用的最大时间。这个时间使用用于传输TCP段的IP数据报中的TTL字段进行设置，不同的实现为MSL设置了不同的值，通常为30s，一分钟或者两分钟。RFC793指出MSL为2分钟，在Windows下默认为该值，当然，可以通过修改注册表项[TcpTimedWaitDelay][]设置该值。
+
+之所以`TIME_WAIT`能够影响系统的扩展性是因为在一个TCP连接中，一个Socket如果关闭的话，它将保持`TIME_WAIT`状态大约4分钟。如果很多连接快速的打开和关闭的话，系统中处于`TIME_WAIT`状态的socket将会积累很多，你可以使用`netstat`命令查看处于`TIME_WAIT`状态的socket。由于本地端口数量的限制，同一时间只有有限数量的socket连接可以建立，如果太多的socket处于`TIME_WAIT`状态，你会发现，由于用于新建连接的本地端口太缺乏，将会很难再建立新的对外连接。 但是为什么要有`TIME_WAIT`状态呢？
+
+对于`TIME_WAIT`的存在，有两个理由。一个原因是为了防止一个连接中延迟的数据段会被后序的连接错误的解析。当一个连接处于2MSL状态的时候，任何到达的数据段都将会被丢弃。
+
+![TIME_WAIT-why][]
+
+在上图中，我们有从终端1到终端2的两个连接。在每个连接中，每个终端的地址和端口是相同的。第一个主动关闭的连接是由终端2主动发起的。如果终端2没有保持在`TIME_WAIT`状态足够长的时间以确保先前的连接中所有的数据段（每个数据段都有自己相应的序列号）都已经不可用了的话，可能会错误的成为第二个连接的一部分。
+
+注意的是，延迟的数据段一般不会像这里这样造成问题。首先，每个终端的地址和端口号必须是相同的，这一点是可能性很小的，因为客户端的端口号通常由操作系统自动从可用端口范围中任意选择端口，并且在不同的连接中该端口通常是不同的。其次，延迟的片段的序列号需要在第二个连接中是可用的，这也是不太可能的。但是如果一旦这两个条件同时发生，`TIME_WAIT`状态可以防止新链接的数据出现问题。
+
+第二个原因是为了实现TCP全双工连接的终止可靠性。如果来自终端2的最后一个ACK被丢弃，那么终端1将会重新发送最后的FIN，如果这时候终端2的连接状态已经转变到了`CLOSED`，那么唯一的响应将会是发送一个RST告诉它重发FIN是不被期望的，这样的结果会导致尽管所有的数据都已经正确的传输，但是终端1还是会接收到一个错误消息。
+
+不幸的是有些操作系统对`TIME_WAIT`的实现太过简单(slightly natvie)。只有在一个连接中完全匹配的socket（一个连接使用客户端地址，端口，服务端地址，端口进行标识）才需要被`TIME_WAIT`保护，以减少`TIME_WAIT`造成的开销。然而，某些操作系统采用了更加严格的限制，并且防止重用处于`TIME_WAIT`状态的连接所包含的本地端口号。如果有太多的socket结束后处于`TIME_WAIT`状态的话，由于没有足够的新的本地端口分配给程序，因此无法建立新的对外的连接。
+
+Windows下并不是这样做的，它只防止完全匹配的处于TIME_WAIT状态的出站连接的建立。
+
+入站连接很少会被`TIME_WAIT`影响。虽然与客户端一样，服务器端主动关闭的连接会进入`TIME_WAIT`状态，但是服务端监听的端口并不会防止新建的入站连接请求的建立。On Windows the well known port that the server is listening on can form part of subsequently accepted connections and if a new connection is established from a remote address and port that currently form part of a connection that is in TIME_WAIT for this local address and port then the connection is allowed as long as the new sequence number is larger than the final sequence number from the connection that is currently in TIME_WAIT. 但是，累积在服务端的处于`TIME_WAIT`状态的连接可能会影响性能和资源的使用，因为处于`TIME_WAIT`状态的连接最终都会超时，这就需要服务器对超时进行处理，并且在`TIME_WAIT`状态结束之前都会占用服务器的资源（少量）。
+
+由于本地端口的缺乏，`TIME_WAIT`的存在影响的是出站连接的建立，这些本地端口由操作系统进行自动的分配，因此，优化的方法是增加本地端口的范围，在Windows下，你可以调整 [MaxUserPort][] 注册表项。注意的是，很多Windows系统下默认的端口范围比较小，大约4000个左右，这对很多客户端服务器系统来说太少了。
+
+虽然可以减少socket在`TIME_WAIT`状态花费的时间，但通常情况下这都是不会起到什么实际的帮助的。`TIME_WAIT`只会在服务器建立了很多连接并且主动关闭的情况下会产生影响，调整`2MSL`的时间只会让服务器可以建立更多的连接并且在给定的时间内关闭，所以你必须继续调整`2MSL`的时间更低以至于该值太小，导致遇到一些由于延迟片段成为后序连接的一部分而产生的问题，当然，这只会在连接到同一个远端地址和端口号并且非常频繁的使用本地端口，或者是你连接到同样的远程地址和端口，并且绑定了固定的本地端口的时候出现。
+
+修改`2MSL`的值通常是机器全局的配置修改。你可以在socket级别使用`SO_REUSEADDR` socket选项解决`TIME_WAIT`的问题，这使得即使一个有着同样地址和端口的socket存在，也可以创建一个新的socket，新的socket最终将会劫持旧的socket。你可以使用`SO_REUSEADDR`选项，在一个有着同样端口的socket已经处于`TIME_WAIT`状态的时候创建新的socket，但这样做可能会造成一些问题，比如拒绝服务攻击或者数据窃取。在Windows平台下，有另一个socket选项`SO_EXCLUSIVEADDRUSE`，使用它可以避免`SO_REUSEADDR`选项的[缺陷][SO_EXCLUSIVEADDRUSE]，但是依我之见，最好还是避免处理`TIME_WAIT`的问题，代之好好设计你的系统，让`TIME_WAIT`不再成为问题。
+
+前面的TCP状态转换图都显示了连接断开的顺序，这里还有另外一种方式断开TCP连接。通过终止(abort)连接和发送一个`RST`代替`FIN`，这可以通过设置socket的`SO_LINGER`选项为 **0** 来实现。这样会使未处理的数据直接被丢弃并且连接被RST中断，而不是使用FIN的时候那样，未处理的数据继续完成传输。认识到当连接被RST中断的时候，任何在终端之间未处理的数据都将会被直接丢弃是非常重要的，通常这个RST代表了一个错误消息"`connection has been reset by the peer`"。远程终端知道连接是被中断还是进入了`TIME_WAIT`状态。
+
+Of course a new incarnation of a connection that has been aborted using RST could become a victim of the delayed segment problem that TIME_WAIT prevents, but the conditions required for this to become a problem are highly unlikely anyway, see above for more details. To prevent a connection that has been aborted from causing the delayed segment problem both peers would have to transition to TIME_WAIT as the connection closure could potentially be caused by an intermediary, such as a router. However, this doesn't happen and both ends of the connection are simply closed.
+
+要避免`TIME_WAIT`成为你的问题也是有办法的，这里假设你有能力修改你的客户端和服务端之间使用的协议，但是，通常情况下需要自己进行服务器设计。
+
+对于从来都不会自身建立出站连接的服务器来说，除了会牺牲部分资源和性能去维护处于`TIME_WAIT`状态的连接外，你不需要过度的担心其它的问题。
+
+对于需要同时建立出站连接和入站连接的服务器来说，黄金规则是如果需要`TIME_WAIT`的话，让远端来主动关闭连接而不是本服务器。最好的方式是无论什么原因，永远不要由服务器来初始一个主动关闭。如果你的终端超时了，使用RST中断连接代替关闭它。如果你的终端发送了不可用的数据，中断连接等。这种方法的思想是如果你的服务器永远都不初始发起主动关闭，那当前服务器就不会累积处于`TIME_WAIT`状态的socket，因此就不会造成扩展性的问题。虽然在出错的情况下中断连接是非常简单的，但是如果是正常连接的终止该如何做呢？李向情况下，你应该在你的服务器协议设计的时候有一种方法能够告诉客户端让客户端主动断开连接，而不是由服务器发起。所以，如果服务器需要中断一个连接的话，服务器发送一个应用级别的消息"we're done"告诉客户端，客户端来关闭这个连接。如果客户端由于某些原因关闭连接失败了，然后服务器直接中断连接。
+
+在客户端，事情就更加复杂一点，毕竟它需要初始发起一个主动关闭去终止TCP连接，如果客户端终止连接，它将以`TIME_WAIT`状态结束。但是，在客户端以`TIME_WAIT`终止连接有很多优点。
+
+Firstly if, for some reason, the client ends up with connectivity issues due to the accumulation of sockets in TIME_WAIT it's just one client. Other clients will not be affected. Secondly, it's inefficient to rapidly open and close TCP connections to the same server so it makes sense beyond the issue of TIME_WAIT to try and maintain connections for longer periods of time rather than shorter periods of time. Don't design a protocol whereby a client connects to the server every minute and does so by opening a new connection. Instead use a persistent connection design and only reconnect when the connection fails, if intermediary routers refuse to keep the connection open without data flow then you could either implement an application level ping, use TCP keep alive or just accept that the router is resetting your connection; the good thing being that you're not accumulating TIME_WAIT sockets. If the work that you do on a connection is naturally short lived then consider some form of "connection pooling" design whereby the connection is kept open and reused. Finally, if you absolutely must open and close connections rapidly from a client to the same server then perhaps you could design an application level shutdown sequence that you can use and then follow this with an abortive close. Your client could send an "I'm done" message, your server could then send a "goodbye" message and the client could then abort the connection.
+
+`TIME_WAIT`的存在是有它的理由的，通过缩短`2MSL`的时间或者使用`SO_REUSEADDR`允许连接重用并不总是好主意。如果你有能力去设计你的协议避免`TIME_WAIT`产生的问题的话，你就可以避免这里所有的问题。
+
+你过你希望获取更多关于`TIME_WAIT`的实现和如何利用它的信息，参考这两篇文章：
+
+- [The TIME-WAIT state in TCP and Its Effect on Busy Servers][]
+- [2.7 - Please explain the TIME_WAIT state][]
+
+
+-----------
+原文: [TIME_WAIT及其对协议和可扩展的客户端服务器系统设计的影响](http://www.serverframework.com/asynchronousevents/2011/01/time-wait-and-its-design-implications-for-protocols-and-scalable-servers.html)
+[TCP-StateTransitionDiagram-NormalTransitions]:http://www.serverframework.com/asynchronousevents/assets_c/2011/01/TCP-StateTransitionDiagram-NormalTransitions-thumb-500x749-271.png
+[TCP-StateTransitionDiagram-ClosureTransitions]:http://www.serverframework.com/asynchronousevents/assets_c/2011/01/TCP-StateTransitionDiagram-ClosureTransitions-thumb-500x445-274.png
+[TcpTimedWaitDelay]:http://technet.microsoft.com/en-us/library/cc938217.aspx
+[TIME_WAIT-why]:http://www.serverframework.com/asynchronousevents/assets_c/2011/01/TIME_WAIT-why-thumb-500x711-277.png
+[MaxUserPort]:http://technet.microsoft.com/en-us/library/cc938196.aspx
+[SO_EXCLUSIVEADDRUSE]:http://msdn.microsoft.com/en-us/library/ms740621(v=vs.85).aspx
+[The TIME-WAIT state in TCP and Its Effect on Busy Servers]:http://www.isi.edu/touch/pubs/infocomm99/infocomm99-web/
+[2.7 - Please explain the TIME_WAIT state]:http://developerweb.net/viewtopic.php?id=2941
