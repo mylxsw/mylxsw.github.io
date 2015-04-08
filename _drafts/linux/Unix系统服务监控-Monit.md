@@ -173,6 +173,44 @@
 
 ###守护进程模式
 
+    set daemon n (n的单位是秒)
+
+指定Monit在后台轮询检查进程运行状态的时间。你可以使用命令行参数`-d`选项指定这个时间，当然，建议在配置文件中进行设置。
+
+Monit应该总是以后台的守护进程模式运行，如果你不指定该选项或者是命令行的`-d`选项，则只会在运行Monit的时候对它监控的文件或者进程检查一次然后退出。
+
+###Init 支持
+
+配置`set init`可以防止monit将自身转化为守护进程模式，它可以让前台进程运行。这需要从init运行monit，另一种方式是使用crontab定时任务运行，当然这样的话你需要在运行前使用`monit -t`检查一下控制文件是否存在语法错误。
+
+要配置monit从init运行，可以在monit的配置文件中使用`set init`指令或者命令行中使用`-I`选项，以下是需要在`/etc/inittab`文件中增加的配置。
+
+    # Run Monit in standard run-levels
+    mo:2345:respawn:/usr/local/bin/monit -Ic /etc/monitrc
+
+> inittab文件格式: `id:runlevels:action:process`
+> 该行配置是为Monit指定了id为mo，运行级别2-5有效，`respawn`指明了无论进程是否已经运行，都对进程restart
+
+在修改完init配置文件后，可以使用如下命令测试`/etc/inittab`文件并运行Monit:
+
+	telinit q
+
+> `telinit q` 用于重载守护进程的配置，等价于`systemctl daemon-reload`
+
+对于没有`telinit`的系统，执行如下命令:
+
+	kill -1 1
+
+如果Monit已经系统启动的时候运行对服务进行监控，在某些情况下，可能会出现竞争。也就是说如果一个服务启动的比较慢，Monit会假设该服务没有运行并且可能会尝试启动该服务和报警，但是事实上该服务正在启动中或者已经在启动队列里了。
+
+###包含文件
+
+	include globstring
+
+例如`include /etc/monit.d/*.cfg`会将`/etc/monit.d/`目录下所有的`.cfg`文件包含到配置文件中。
+
 
 
 ------
+
+原文: [monit官方文档 Version 5.12.2](https://mmonit.com/monit/documentation/)
