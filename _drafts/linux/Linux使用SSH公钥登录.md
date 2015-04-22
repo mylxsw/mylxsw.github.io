@@ -1,0 +1,24 @@
+Linux使用SSH公钥登录
+===================
+
+
+在Linux(MAC)下，每次登录远程Linux服务器都使用帐号密码是非常麻烦的，使用SSH公钥登录，可以免去输入密码的麻烦。
+
+首先，使用`ssh-keygen`命令创建自己的公私密钥
+
+    ssh-keygen
+
+执行成功后，在`~/.ssh`目录下，会创建名为`id_rsa`的私钥和`id_rsa.pub`的公钥。
+
+接下来，对需要使用公钥进行管理的服务器，使用`ssh-copy-id`命令将公钥上传到服务器即可。
+
+    ssh-copy-id <account>@<server address>
+
+现在，就可以使用命令`ssh <account>@<server address`命令登录服务器而不会提示需要输入密码了。
+
+> 在Mac上，如果没有这两个命令的话，可以使用`brew`进行安装`brew install ssh`和`brew install ssh-copy-id`。
+
+
+-----------
+
+参考： [SSH原理与运用（一）：远程登录](http://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html)
