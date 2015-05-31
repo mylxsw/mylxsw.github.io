@@ -1,7 +1,7 @@
 ---
 categories: [Docker]
 tags: [Docker, boot2docker, Mac]
-thumb: http://aicode.qiniudn.com/markdown/docker.jpg
+thumb: http://source.aicode.cc/markdown/docker.jpg
 ---
 
 在Mac上使用Docker，需要使用`boot2docker`建立docker运行的虚拟机宿主环境。安装`boot2docker`可以简单的通过`brew`进行安装。
