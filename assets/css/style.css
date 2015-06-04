@@ -7,7 +7,7 @@ footer {
   text-align: center;
 }
 .blog-main img {
-  width: 90%;
+  max-width: 90%;
 }
 .blog-main .ai-link-rewrite h2 {
   font-size: 40px;
