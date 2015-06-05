@@ -29,6 +29,7 @@
                 <!--<li class=" {% if page.navbar == '关于' %} active {% endif %}">
                     <a href="{{ site.base_url }}/about.html">关于</a>
                 </li>-->
+                <li><a href="http://vision.aicode.cc" target="_blank">VISION</a>
                 <li>
                     <a href="{{ site.base_url }}/atom.xml">订阅</a>
                 </li>
