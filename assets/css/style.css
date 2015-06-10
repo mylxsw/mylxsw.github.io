@@ -6,23 +6,23 @@ footer {
   border-top: 1px solid #e5e5e5;
   text-align: center;
 }
-.blog-main h2 {
+.blog-main .focus-blog h2 {
   font-size: 33px!important;
 }
-.blog-main h3 {
+.blog-main .focus-blog h3 {
   font-size: 25px!important;
 }
-.blog-main h3.title {
+.blog-main .focus-blog h3.title {
   font-size: 33px!important;
   text-align: center;
 }
-.blog-main h4 {
+.blog-main .focus-blog h4 {
   font-size: 20px!important;
 }
-.blog-main h5 {
+.blog-main .focus-blog h5 {
   font-size: 16px!important;
 }
-.blog-main .info {
+.blog-main .focus-blog .info {
   padding-bottom: 15px;
   text-align: center;
 }

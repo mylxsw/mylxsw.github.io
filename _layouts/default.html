@@ -38,7 +38,7 @@
             {% comment %} 捕获页面主体内容，用于下面根据是否显示侧边栏显示 {% endcomment %}
             {% capture body %}
                 {% if page.title %}
-
+                    <div class="focus-post">
                     <h3 class="title">{{page.title}}</h3>
                     <div class="info">
                         本文由 <a href="http://weibo.com/code404" alt="微博" title="微博" data-toggle="tooltip" data-placement="bottom">管宜尧</a> 发布于 {{ page.date | date: "%F" }} 
@@ -51,6 +51,7 @@
                 {% if page.title %}
                         <p>[<a href="{{ site.production_url }}">{{ site.site_name | upcase }}</a> 原创文章, 作者 {{page.author}}]</p>
                     </section>
+                    </div>
                 {% endif %}
 
                 {% include comments_duoshuo %}
