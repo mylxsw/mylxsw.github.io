@@ -1,6 +1,6 @@
 ---
 categories: [运维]
-tags: [LNMP, MySQL]
+tags: [LNMP, MySQL, LNMP]
 thumb: /assets/images/thumb/lnmp.gif
 ---
 

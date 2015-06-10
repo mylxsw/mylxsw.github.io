@@ -1,6 +1,6 @@
 ---
 categories: [Docker]
-tags: [Docker, PHP, Nginx]
+tags: [Docker, PHP, Nginx, LNMP]
 thumb: http://source.aicode.cc/markdown/docker.jpg
 ---
 

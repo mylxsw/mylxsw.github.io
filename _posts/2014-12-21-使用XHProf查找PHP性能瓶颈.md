@@ -1,6 +1,6 @@
 ---
 categories: [PHP]
-tags: [PHP, XhProf]
+tags: [PHP, XhProf, LNMP]
 thumb: /assets/images/thumb/xhprof.jpeg
 ---
 

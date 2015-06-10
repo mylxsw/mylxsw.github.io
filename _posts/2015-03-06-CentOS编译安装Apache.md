@@ -1,6 +1,6 @@
 ---
 categories: [运维]
-tags: [Linux, Apache]
+tags: [Linux, Apache, LNMP]
 thumb: /assets/images/thumb/apache.jpg
 ---
 

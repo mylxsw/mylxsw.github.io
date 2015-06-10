@@ -1,9 +1,7 @@
 ---
-
 categories: [运维,PHP]
-tags: [Linux, PHP]
+tags: [Linux, PHP, LNMP]
 thumb: /assets/images/thumb/rsyslog_message_flow.jpg
-
 ---
 
 在 Linux 系统中，日志文件记录了系统中包括内核、服务和其它应用程序等在内的运行信息。
