@@ -9,10 +9,16 @@ footer {
 .blog-main h3 {
   text-align: center;
   font-size: 32px;
-  padding-bottom: 31px;
+}
+.blog-main .info {
+  padding-bottom: 15px;
+  text-align: center;
 }
 .blog-main #blog_content {
   padding: 15px;
+}
+.blog-main #blog_content p {
+  text-indent: 2em;
 }
 .blog-main img {
   max-width: 90%;
