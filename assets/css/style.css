@@ -7,20 +7,20 @@ footer {
   text-align: center;
 }
 .blog-main h2 {
-  font-size: 33px;
+  font-size: 33px!important;
 }
 .blog-main h3 {
-  font-size: 25px;
+  font-size: 25px!important;
 }
 .blog-main h3.title {
-  font-size: 33px;
+  font-size: 33px!important;
   text-align: center;
 }
 .blog-main h4 {
-  font-size: 20px;
+  font-size: 20px!important;
 }
 .blog-main h5 {
-  font-size: 16px;
+  font-size: 16px!important;
 }
 .blog-main .info {
   padding-bottom: 15px;
