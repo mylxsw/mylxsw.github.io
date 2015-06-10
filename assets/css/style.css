@@ -12,7 +12,7 @@ footer {
 .blog-main h3 {
   font-size: 25px;
 }
-.blog-main h3 .title {
+.blog-main h3.title {
   font-size: 33px;
   text-align: center;
 }
