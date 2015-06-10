@@ -6,6 +6,14 @@ footer {
   border-top: 1px solid #e5e5e5;
   text-align: center;
 }
+.blog-main h3 {
+  text-align: center;
+  font-size: 32px;
+  padding-bottom: 31px;
+}
+.blog-main #blog_content {
+  padding: 15px;
+}
 .blog-main img {
   max-width: 90%;
 }
