@@ -7,7 +7,7 @@
 ## 解决方案：
 
 添加如下指令到git配置文件
-    
+
     ignorecase = false
 
 如果全局添加，添加到`~/.gitconfig`文件。
