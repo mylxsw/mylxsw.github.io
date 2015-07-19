@@ -1,0 +1,21 @@
+
+## 问题
+
+项目中某个文件大小写搞错了，并且已经push，这时本地修改大小写，发现git并不会检测到文件发生修改。
+
+
+## 解决方案：
+
+添加如下指令到git配置文件
+    
+    ignorecase = false
+
+如果全局添加，添加到`~/.gitconfig`文件。
+
+    [core]
+    ignorecase = false
+
+如果针对项目添加(`项目目录/.git/config`)
+
+    [core]
+    ignorecase = false
