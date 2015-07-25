@@ -1,0 +1,13 @@
+Mac升级到10.10.5之后，执行php程序出现以下错误
+
+    $ php -v
+    dyld: Library not loaded: /usr/lib/libnetsnmp.25.dylib
+    Referenced from: /usr/local/bin/php
+      Reason: image not found
+    [1]    3290 trace trap  php -v
+
+说找不到动态链接库`libnetsnmp.25.dylib`，查看`/usr/lib/`目录，发现确实没有该文件，新版的名称为`libnetsnmp.30.dylib`。
+
+解决办法是为`libnetsnmp.dylib`重新创建一个25的链接。
+
+    sudo ln -s /usr/lib/libnetsnmp.dylib /usr/lib/libnetsnmp.25.dylib
