@@ -1,4 +1,8 @@
-# PHPStorm配合Xdebug调试PHP程序
+---
+categories: [运维,PHP]
+tags: [Linux, PHP, LNMP]
+thumb: /assets/images/thumb/lnmp.gif
+---
 
 ##环境安装配置
 

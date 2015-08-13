@@ -1,3 +1,8 @@
+---
+categories: [运维]
+tags: [Linux]
+thumb: /assets/images/thumb/cmd.jpg
+---
 
 
 在使用`vagrant`的时候，不知怎么搞的启动(`vagrant up`)后出现下列错误：
