@@ -1,6 +1,8 @@
-##Unix系统服务监控 - Monit
-
-[TOC]
+---
+categories: [Linux]
+tags: [Linux]
+thumb: http://source.aicode.cc/markdown/gnu.jpg
+---
 
 **Monit** 是Unix系统中用于管理和监控进程、程序、文件、目录和文件系统的工具。使用 Monit 可以检测进程是否正常运行，如果异常可以自动重启服务以及报警，当然，也可以使用 Monit 检查文件和目录是否发生修改，例如时间戳、校验和以及文件大小的改变。
 
