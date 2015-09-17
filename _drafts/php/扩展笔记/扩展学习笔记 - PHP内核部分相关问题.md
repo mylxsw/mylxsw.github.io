@@ -9,7 +9,6 @@
 编译时检查，即使在Cli模式下使用，也会检查是否增加了线程安全兼容。
 
 
-
 ###常用的线程安全宏定义
 
     #define TSRMLS_D      void ***tsrm_ls
@@ -227,7 +226,7 @@ __________
 
     CG    -> Complier Global      编译时信息，包括函数表等(zend_globals_macros.h:32)
     EG    -> Executor Global      执行时信息(zend_globals_macros.h:43)
-    PG    -> PHP Core Global      主要存储php.ini中的信息
+    PG    -> PHP Core Global      主要存储php.ini中的信息(php_globals.h:29)
     SG    -> SAPI Global          SAPI信息
 
 
@@ -256,6 +255,7 @@ EG获取的是`struct _zend_execution_globals`结构体中的数据。
 
 上面的代码中，`EG(active_symbol_table) == &EG(symbol_table)`。
 
+宏定义`PG`用于访问`php_core_globals`类型(main.c:125)的全局变量，该全局变量包含了`php.ini`中的配置信息，用于访问配置。
 
 
 ####如何获取变量的类型和值
@@ -428,4 +428,3 @@ Zend定义的宏`MAKE_STD_ZVAL(pzv)`分配变量内存空间，该宏将会对`r
     ZEND_API char *zend_str_tolower_dup(const char *source, unsigned int length);
 
 > 注意的是，在Zend中并没有提供转换为大写的函数，在PHP标准扩展中可以找到该函数。
-

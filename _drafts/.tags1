@@ -1,0 +1,12 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	0	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+函数如何处理参数？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 函数如何处理参数？$/;"	function	line:6
+如何创建对象？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 如何创建对象？$/;"	function	line:8
+如何创建一个zval的字符串？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 如何创建一个zval的字符串？$/;"	function	line:10
+如何创建一个空数组？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 如何创建一个空数组？$/;"	function	line:12
+扩展内函数如何调用其它扩展的函数或者自己的函数？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 扩展内函数如何调用其它扩展的函数或者自己的函数？$/;"	function	line:18
+段错误如何调试？	/Users/mylxsw/codes/github/mylxsw.github.io/_drafts/php/扩展笔记/扩展学习笔记 - 常用操作.md	/^## 段错误如何调试？$/;"	function	line:20

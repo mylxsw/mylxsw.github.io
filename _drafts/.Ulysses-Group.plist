@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>childOrder</key>
+	<array>
+		<string>DesignPatterns</string>
+		<string>docker</string>
+		<string>linux</string>
+		<string>LNMP技术系列</string>
+		<string>mysql</string>
+		<string>nginx</string>
+		<string>php</string>
+		<string>vim</string>
+		<string>读书笔记</string>
+	</array>
+	<key>createMarkedFile</key>
+	<false/>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>Ansible.md</string>
+		</array>
+		<array>
+			<string>Atom快捷键.md</string>
+		</array>
+		<array>
+			<string>C socket &amp; pthread.md</string>
+		</array>
+		<array>
+			<string>Go语言常见问题集锦.md</string>
+		</array>
+		<array>
+			<string>HTTP常见错误及解决方案.md</string>
+		</array>
+		<array>
+			<string>iframe子页面调用父页面.md</string>
+		</array>
+		<array>
+			<string>Mermaid流程图和序列图.md</string>
+		</array>
+		<array>
+			<string>Web性能测试.md</string>
+		</array>
+		<array>
+			<string>YAML格式.md</string>
+		</array>
+		<array>
+			<string>year-month-day-title_template.md</string>
+		</array>
+		<array>
+			<string>使用mermaid创建流程图和序列图.md</string>
+		</array>
+		<array>
+			<string>安装Qpid.md</string>
+		</array>
+		<array>
+			<string>构建高可用的系统.md</string>
+		</array>
+		<array>
+			<string>简历.md</string>
+		</array>
+		<array>
+			<string>编辑器快捷键备忘.md</string>
+		</array>
+		<array>
+			<string>运行AMQP Messaging Broker.md</string>
+		</array>
+	</array>
+</dict>
+</plist>

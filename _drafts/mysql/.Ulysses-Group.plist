@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>childOrder</key>
+	<array>
+		<string>resources</string>
+	</array>
+	<key>createMarkedFile</key>
+	<false/>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>MySQL常用操作.md</string>
+		</array>
+		<array>
+			<string>MySQL架构和历史.md</string>
+		</array>
+		<array>
+			<string>Tutorial.md</string>
+		</array>
+	</array>
+</dict>
+</plist>

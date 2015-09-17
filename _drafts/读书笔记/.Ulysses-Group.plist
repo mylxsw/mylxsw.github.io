@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>childOrder</key>
+	<array>
+		<string>resources</string>
+	</array>
+	<key>createMarkedFile</key>
+	<false/>
+	<key>sheetClusters</key>
+	<array>
+		<array>
+			<string>Building High Performance Web.md</string>
+		</array>
+		<array>
+			<string>dbgp_-_用于开发语言与调试器交流的通用调试器协议.md</string>
+		</array>
+		<array>
+			<string>Go语言.md</string>
+		</array>
+		<array>
+			<string>HTTP API设计指南.md</string>
+		</array>
+		<array>
+			<string>Laravel homestead.md</string>
+		</array>
+		<array>
+			<string>Linux命令行与Shell脚本编程大全.md</string>
+		</array>
+		<array>
+			<string>linux学习笔记.md</string>
+		</array>
+		<array>
+			<string>mac_os_安装python模块pil报错解决.md</string>
+		</array>
+		<array>
+			<string>MySQL分区技术.md</string>
+		</array>
+		<array>
+			<string>php.ini常用配置项.md</string>
+		</array>
+		<array>
+			<string>phpdocumentor入门.md</string>
+		</array>
+		<array>
+			<string>phpdoc笔记.md</string>
+		</array>
+		<array>
+			<string>PHP支持的协议和包装器.md</string>
+		</array>
+		<array>
+			<string>Syncml同步协议.md</string>
+		</array>
+		<array>
+			<string>Syncml表示协议.md</string>
+		</array>
+		<array>
+			<string>Vagrant使用技巧.md</string>
+		</array>
+		<array>
+			<string>Vagrant使用笔记.md</string>
+		</array>
+		<array>
+			<string>xdebug_中文文档.md</string>
+		</array>
+		<array>
+			<string>Xdebug_分析器.md</string>
+		</array>
+		<array>
+			<string>xdebug_远程调试.md</string>
+		</array>
+		<array>
+			<string>命令笔记.md</string>
+		</array>
+	</array>
+</dict>
+</plist>
