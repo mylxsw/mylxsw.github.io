@@ -17,6 +17,7 @@ thumb: /assets/images/thumb/lnmp.gif
     $ sudo groupadd mysql
     $ sudo useradd -r -g mysql mysql
 
+<!--more-->
 
 建立好用户名和组之后，就可以进行编译安装了
 

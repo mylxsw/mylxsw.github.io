@@ -23,6 +23,7 @@ thumb: /assets/images/thumb/lnmp.gif
 
 安装配置完成后，重启`php-fpm`进程。
 
+<!--more-->
 
 ##使用方式
 

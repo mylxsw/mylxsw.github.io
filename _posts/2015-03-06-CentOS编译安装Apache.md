@@ -16,6 +16,8 @@ thumb: /assets/images/thumb/apache.jpg
 
 提示缺少 APR ，需要提供 Apr才能继续，下载 Apr 加入到源码目录的srclib 目录。
 
+<!--more-->
+
     cd ~
     wget http://apache.fayea.com/apr/apr-1.5.1.tar.gz
     tar -zxvf apr-1.5.1.tar.gz

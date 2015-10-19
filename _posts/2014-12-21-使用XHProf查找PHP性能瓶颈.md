@@ -17,6 +17,7 @@ XHProf是facebook 开发的一个测试php性能的扩展。
     $ make
     $ sudo make install
 
+<!--more-->
 
 修改`php.ini`
 

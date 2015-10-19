@@ -18,6 +18,8 @@ thumb: http://source.aicode.cc/markdown/docker.jpg
 
 	boot2docker start
 
+<!--more-->
+
 这样就启动了Docker的虚拟机环境，使用命令`boot2docker shellinit`查看Docker客户端的环境变量
 
 	$ boot2docker shellinit

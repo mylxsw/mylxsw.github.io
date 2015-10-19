@@ -16,6 +16,8 @@ Docker提供了多个容器直接访问的方法，最简单的方式是直接�
 
 这里我们通过建立一个 [nginx/php-fpm][] 的服务，示例一下如何在两个或者多个容器之间建立连接。
 
+<!--more-->
+
 要建立容器连接的话，就要依赖容器的名字了，使用`--name`指定源容器的名字为`phpfpm`
 
 	docker run --name phpfpm -d -v /Users/mylxsw/codes/php:/app php:5.6-fpm

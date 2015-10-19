@@ -11,6 +11,8 @@ thumb: /assets/images/thumb/rsyslog_message_flow.jpg
 
 `rsyslog`的配置文件为 **/etc/rsyslog.conf** , 大多数日志文件都位于 **/var/log/** 目录中。
 
+<!--more-->
+
 ###定位日志文件
 
 大多数日志文件都位于 **/var/log/** 目录中。在该目录中，你可能注意到很多日志文件末尾包含一串数字（如 *maillog-20150301* ），这说明这些日志文件经过了日志转储，这样可以避免日志文件过大。

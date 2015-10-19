@@ -19,6 +19,8 @@ thumb: http://source.aicode.cc/markdown/gnu.jpg
 
 如果配置文件没有问题的话，就可以使用`monit`命令启动 **monit** 了。
 
+<!--more-->
+
     $ monit
 
 > 当启动 **monit** 的时候，可以使用命令行选项控制它的行为，命令行提供的选项优先于配置文件中的配置。

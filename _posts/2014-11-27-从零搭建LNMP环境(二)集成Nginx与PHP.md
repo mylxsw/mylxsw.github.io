@@ -21,6 +21,7 @@ thumb: /assets/images/thumb/lnmp.gif
     option, or install the PCRE library into the system, or build the PCRE library
     statically from the source with nginx by using --with-pcre=<path> option.
 
+<!--more-->
 
 则需要先安装pcre
 
