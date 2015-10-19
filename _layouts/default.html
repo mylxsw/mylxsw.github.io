@@ -110,9 +110,9 @@
             <div class="am-g">
                 <!--<p class="am-article-lead"><?=$post['intro'];?></p>-->
                 <div class="am-u-sm-12">
-            {{ endif }}
+        {% endif %}
                     {{ content }}
-            {% if page.title %}
+        {% if page.title %}
                 </div>
 
             </div>
@@ -121,12 +121,11 @@
                 标签:
 
             </p>
-
         </article>
         <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
         <wb:share-button appkey="4tg0Ag" addition="full" type="button" ralateUid="2508316741" picture_search="false"></wb:share-button>
         <div class='ds-thread' data-title="{{page.title}}" data-url="http://aicode.cc/article/{{page.title}}.html" data-thread-key="art_<?=$post['id'];?>"></div>
-        {{ endif }}
+        {% endif %}
 
         {% endcapture %}
 
