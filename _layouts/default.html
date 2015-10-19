@@ -158,7 +158,7 @@
                     {% endcapture %}
                     {% assign sortedtags = tags | split:' ' | sort %}
                     {% for tag in sortedtags  %}
-                    <a class="am-badge am-radius" href="tag/">{{ tag }}</a>
+                    <a class="am-badge am-radius" href="tags/{{ tag }}">{{ tag }}</a>
                     {% endfor %}
                 </div>
             </section>
