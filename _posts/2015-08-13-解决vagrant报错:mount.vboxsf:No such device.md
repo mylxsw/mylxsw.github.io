@@ -21,6 +21,8 @@ thumb: /assets/images/thumb/cmd.jpg
 
 最后通过Google在[Github][github]上找到解决办法:
 
+<!--more-->
+
     yum update -y
     yum install kernel-devel-$(uname -r) kernel-headers-$(uname -r) dkms -y
     /etc/init.d/vboxadd setup
