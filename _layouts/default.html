@@ -151,8 +151,14 @@
             <section class="am-panel am-panel-default">
                 <div class="am-panel-hd">标签</div>
                 <div class="am-panel-bd am-animation-fade">
-                    {% for tag in site.tags  %}
-                    <a class="am-badge am-radius" href="tag/">{{ tag[0] }}</a>
+                    {% capture tags %}
+                      {% for tag in site.tags %}
+                        {{ tag[0] }}
+                      {% endfor %}
+                    {% endcapture %}
+                    {% assign sortedtags = tags | split:' ' | sort %}
+                    {% for tag in sortedtags  %}
+                    <a class="am-badge am-radius" href="tag/">{{ tag }}</a>
                     {% endfor %}
                 </div>
             </section>
