@@ -14,7 +14,7 @@ encoding: utf-8
 timezone: Asia/Shanghai
 highlighter: pygments
 paginate: 10
-
+excerpt_separator: <!--more-->
 
 defaults:
   -
