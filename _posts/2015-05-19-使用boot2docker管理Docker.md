@@ -1,6 +1,6 @@
 ---
 categories: [Docker]
-tags: [Docker, boot2docker, Mac]
+tags: [docker, boot2docker, mac]
 thumb: http://source.aicode.cc/markdown/docker.jpg
 ---
 

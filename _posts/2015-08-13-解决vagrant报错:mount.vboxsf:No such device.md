@@ -1,6 +1,6 @@
 ---
 categories: [运维]
-tags: [Linux]
+tags: [linux]
 thumb: /assets/images/thumb/cmd.jpg
 ---
 

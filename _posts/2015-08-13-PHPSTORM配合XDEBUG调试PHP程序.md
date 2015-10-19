@@ -1,6 +1,6 @@
 ---
 categories: [运维,PHP]
-tags: [Linux, PHP, LNMP]
+tags: [linux, php, lnmp]
 thumb: /assets/images/thumb/lnmp.gif
 ---
 

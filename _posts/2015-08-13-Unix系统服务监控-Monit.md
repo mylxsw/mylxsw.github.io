@@ -1,6 +1,6 @@
 ---
 categories: [Linux]
-tags: [Linux]
+tags: [linux]
 thumb: http://source.aicode.cc/markdown/gnu.jpg
 ---
 

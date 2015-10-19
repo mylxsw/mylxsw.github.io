@@ -1,6 +1,6 @@
 ---
 categories: [运维,PHP]
-tags: [Linux, PHP, LNMP]
+tags: [linux, php, lnmp]
 thumb: /assets/images/thumb/rsyslog_message_flow.jpg
 ---
 
@@ -234,25 +234,25 @@ Action定义了当匹配指定的 filter 的时候，执行什么操作。
 我们将所有支持的模板属性变量输出如下
 
     msg:  Hello, Logger,
-    rawmsg: <175>Mar 10 15:52:49 LogHeader[13845]: Hello, Logger, 
-    HOSTNAME: vm-28-234-pro01-hp, 
-    FROMHOST: vm-28-234-pro01-hp, 
-    syslogtag: LogHeader[13845]:, 
-    programname: LogHeader, 
-    PRI: 175, 
-    PRI-text: local5.debug, 
-    IUT: 1, 
-    syslogfacility: 21, 
-    syslogfacility-text: local5, 
-    syslogseverity: 7, 
-    syslogseverity-text: debug, 
-    timereported: Mar 10 15:52:49, 
+    rawmsg: <175>Mar 10 15:52:49 LogHeader[13845]: Hello, Logger,
+    HOSTNAME: vm-28-234-pro01-hp,
+    FROMHOST: vm-28-234-pro01-hp,
+    syslogtag: LogHeader[13845]:,
+    programname: LogHeader,
+    PRI: 175,
+    PRI-text: local5.debug,
+    IUT: 1,
+    syslogfacility: 21,
+    syslogfacility-text: local5,
+    syslogseverity: 7,
+    syslogseverity-text: debug,
+    timereported: Mar 10 15:52:49,
     TIMESTAMP: Mar 10 15:52:49,
     timegenerated: Mar 10 15:52:49,
-    PROTOCOL-VERSION: 0, 
-    STRUCTURED-DATA: -, 
-    APP-NAME: LogHeader, 
-    PROCID: 13845, 
+    PROTOCOL-VERSION: 0,
+    STRUCTURED-DATA: -,
+    APP-NAME: LogHeader,
+    PROCID: 13845,
     MSGID: -
 
 
