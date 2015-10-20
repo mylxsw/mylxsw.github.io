@@ -39,34 +39,7 @@
     <div id="doc-oc-demo2" class="am-offcanvas">
         <div class="am-offcanvas-bar">
             <div class="am-offcanvas-content">
-                <!--
-                <p>
-                    <br />
-                    如果你有梦想 <br/>
-                    就要去捍卫它 <br/>
-                    当别人做不到的时候 <br/>
-                    他们会告诉你 <br/>
-                    你也不能 <br/>
-                    如果你想要做些什么 <br/>
-                    就得去努力争取 <br/>
-                    就这样
-                </p>-->
-                <p>
-                    <br />
-                    一只船孤独的航行在海上<br />
-                    它既不寻求幸福<br />
-                    也不逃避幸福<br />
-                    它只是向前航行<br />
-                    底下是沉静碧蓝的大海<br />
-                    而头顶是金色的太阳
-                </p>
-                <p style="text-align: center">
-                    <!--
-                    <img src="http://source.aicode.cc/logo/weixin-qcode.jpg" style="width: 95%">
-                    <span style="margin-top: 10px; display: block;">扫码关注微信公众号 <br /> 人文与技术</span>
-					-->
-                    <img src="http://source.aicode.cc/logo/weixin.jpg" style="width: 98%; border-radius: 9px; background-color: white;">
-                </p>
+                {% include left_side_bar %}
             </div>
         </div>
     </div>
@@ -145,8 +118,8 @@
             <section class="am-panel am-panel-default">
                 <div class="am-panel-hd">关注我</div>
                 <div class="am-panel-bd ac-about">
-                    <a target="_blank" href="https://github.com/mylxsw" class="am-icon-btn am-icon-github am-animation-scale-up"  data-am-popover="{content: '我在Github', trigger: 'hover focus'}"></a>
-                    <a target="_blank" href="http://weibo.com/code404" class="am-icon-btn am-icon-weibo am-animation-scale-up am-animation-delay-1" data-am-popover="{content: '关注我的新浪微博', trigger: 'hover focus'}"></a>
+                    <a target="_blank" href="{{ site.github }}" class="am-icon-btn am-icon-github am-animation-scale-up"  data-am-popover="{content: '我在Github', trigger: 'hover focus'}"></a>
+                    <a target="_blank" href="{{ site.weibo }}" class="am-icon-btn am-icon-weibo am-animation-scale-up am-animation-delay-1" data-am-popover="{content: '关注我的新浪微博', trigger: 'hover focus'}"></a>
                     <a target="_blank" href="http://stackoverflow.com/users/2429469/mylxsw" class="am-icon-btn am-icon-stack-overflow am-animation-scale-up am-animation-delay-2" data-am-popover="{content: '我在Stack-overflow', trigger: 'hover focus'}"></a>
                     <a target="_blank" href="https://instagram.com/mylxsw" class="am-icon-btn am-icon-instagram am-animation-scale-up am-animation-delay-3"  data-am-popover="{content: '我的Instagram照片分享', trigger: 'hover focus'}"></a>
                     <a target="_blank" href="https://www.linkedin.com/pub/%E5%AE%9C%E5%B0%A7-%E7%AE%A1/a4/ab1/462" class="am-icon-btn am-icon-linkedin am-animation-scale-up am-animation-delay-4"  data-am-popover="{content: '我的职业名片', trigger: 'hover focus'}"></a>
