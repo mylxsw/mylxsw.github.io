@@ -128,7 +128,8 @@
                 {% for tag in sorted_page_tags %}
                     <a href="tags/{{ tag }}">{{ tag }}</a>
                 {% endfor %}
-                <span class="related-tags" data-tags="{{ sorted_page_Tags | join: ','}}"></span>
+                {% assign page_tags_str = sorted_page_Tags | join: ',' %}
+                <span class="related-tags" data-tags="{{ page_tags_str }}"></span>
             </p>
         </article>
         <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js" type="text/javascript" charset="utf-8"></script>
