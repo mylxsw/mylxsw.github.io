@@ -7,7 +7,7 @@ site_name: AiCode
 site_title: 爱生活，爱代码 - AICODE
 
 base_url:
-production_url: http://blog.aicode.cc
+production_url: http://aicode.cc
 
 
 encoding: utf-8
