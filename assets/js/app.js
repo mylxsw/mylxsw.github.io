@@ -96,7 +96,7 @@
     if ($('.related-tags').length) {
         var related_tags = $('.related-tags').data('tags').split(',');
         for (var tag in related_tags) {
-            $('.am-panel-bd .am-badge[href="tags/' + related_tags[tag] + '"]').trigger('hover');
+            $('.am-panel-bd .am-badge[href="tags/' + related_tags[tag] + '"]').trigger('mouseenter');
         }
     }
 })();
