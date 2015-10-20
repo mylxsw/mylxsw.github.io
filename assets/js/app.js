@@ -75,27 +75,28 @@
     });
 
     // 更新最新的bloglist
-    if ($('.am-panel .blog-list').length) {
-        var url = 'api/blog/related-' + $('span.related-tags').attr('data-tags') + '.json';
-        $.getJSON(url, function(data) {
-            if (data.status == 1) {
-                var list = '';
-                for (var index in data.posts) {
-                    list += '<li><a href="article/' + data.posts[index]['id'] + '.html">' + data.posts[index]['title'] + '</a></li>';
-                }
-                if (list.length > 0) {
-                    $(".am-panel .blog-list").addClass('am-animation-fade am-animation-delay-2').html(list);
-                }
-            } else {
-                console.log(data);
-            }
-        });
-    }
+    // if ($('.am-panel .blog-list').length) {
+    //     var url = 'api/blog/related-' + $('span.related-tags').attr('data-tags') + '.json';
+    //     $.getJSON(url, function(data) {
+    //         if (data.status == 1) {
+    //             var list = '';
+    //             for (var index in data.posts) {
+    //                 list += '<li><a href="article/' + data.posts[index]['id'] + '.html">' + data.posts[index]['title'] + '</a></li>';
+    //             }
+    //             if (list.length > 0) {
+    //                 $(".am-panel .blog-list").addClass('am-animation-fade am-animation-delay-2').html(list);
+    //             }
+    //         } else {
+    //             console.log(data);
+    //         }
+    //     });
+    // }
 
+    // 相关标签自动点亮
     if ($('.related-tags').length) {
         var related_tags = $('.related-tags').data('tags').split(',');
         for (var tag in related_tags) {
-            $('.am-panel-bd .am-badge[href=tags/' + tag + ']').trigger('hover');
+            $('.am-panel-bd .am-badge[href=tags/' + related_tags[tag] + ']').trigger('hover');
         }
     }
 })();
