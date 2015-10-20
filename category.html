@@ -7,12 +7,14 @@ navbar: 技术文章
 {% include categories %}
 
 {% for cat in site.categories %}
-    <h4 id="{{ cat[0] }}-ref">{{ cat[0] | join "/" }}</h4>
-    <ul>
-        {% assign page_list = cat[1] %}
-        {% for node in page_list %}
-            <li><a href="{{ site.base_url}}{{ node.url }}">{{ node.title }}</a></li>
+    <div class="blog-list-block">
+        <h4 id="{{ cat[0] }}-ref">{{ cat[0] | join "/" }}</h4>
+        <ul>
+            {% assign page_list = cat[1] %}
+            {% for node in page_list %}
+                <li><a href="{{ site.base_url}}{{ node.url }}">{{ node.title }}</a></li>
 
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </div>
 {% endfor %}
