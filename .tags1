@@ -4,7 +4,11 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-PHP中的配置选项	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-05-18-PHP编译核心配置选项.md	/^###PHP中的配置选项$/;"	function	line:13
-选项大杂烩	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-05-18-PHP编译核心配置选项.md	/^####选项大杂烩$/;"	function	line:17
-PHP选项	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-05-18-PHP编译核心配置选项.md	/^####PHP选项$/;"	function	line:79
-SAPI选项	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-05-18-PHP编译核心配置选项.md	/^####SAPI选项$/;"	function	line:113
+使用pushd和popd命令快速切换目录	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####使用pushd和popd命令快速切换目录$/;"	function	line:8
+创建软连接的时候出现`Too many levels of symbolic links`的错误信息	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####创建软连接的时候出现`Too many levels of symbolic links`的错误信息   $/;"	function	line:27
+使用SCP命令在服务器和本地计算机之间传递文件	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####使用SCP命令在服务器和本地计算机之间传递文件$/;"	function	line:33
+Mac OS 清理DNS缓存	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####Mac OS 清理DNS缓存$/;"	function	line:58
+Cent OS服务器安装PHP的pecl	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####Cent OS服务器安装PHP的pecl$/;"	function	line:63
+在当前目录下查找大小超过100MB的文件	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####在当前目录下查找大小超过100MB的文件$/;"	function	line:70
+拷贝镜像到U盘	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####拷贝镜像到U盘$/;"	function	line:75
+使用基于文本的图形界面配置命令setup	/Users/mylxsw/codes/github/mylxsw.github.io/_posts/2014-07-18-Linux操作技巧收集.md	/^####使用基于文本的图形界面配置命令setup$/;"	function	line:80
