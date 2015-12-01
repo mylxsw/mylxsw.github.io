@@ -1,5 +1,5 @@
 ---
-caegories: [php]
+caegories: [PHP]
 tags: [php, phpunit, lnmp]
 ---
 
@@ -8,6 +8,8 @@ tags: [php, phpunit, lnmp]
     composer global require "phpunit/phpunit=5.0.*"
 
 安装完成之后，phpunit 在系统全局范围内被安装在了`~/.composer/vendor/bin`目录。
+
+<!--more-->
 
 接下来配置 phpstorm，打开菜单(Preferences)
 

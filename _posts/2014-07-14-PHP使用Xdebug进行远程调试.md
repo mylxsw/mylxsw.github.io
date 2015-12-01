@@ -1,5 +1,5 @@
 ---
-caegories: [php]
+caegories: [PHP]
 tags: [php, xdebug, lnmp]
 ---
 
