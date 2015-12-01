@@ -1,5 +1,5 @@
 ---
-caegories: [PHP]
+categories: [PHP]
 tags: [php, phpunit, lnmp]
 ---
 
