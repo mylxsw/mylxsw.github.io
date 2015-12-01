@@ -1,0 +1,9 @@
+
+
+ 项目使用 Composer 进行管理，在系统中使用 Composer 全局安装`phpunit`，这里使用的是 Mac 系统，因此，PHPunit 被安装在了`~/.composer/vendor/phpunit/phpunit`目录。
+
+ 在 phpstorm 中，打开菜单项: **Preferences** / **Languages & Frameworks** / **PHP** / **PHPUnit** 
+
+ ![phpunit-dashboard](http://source.aicode.cc/markdown/phpunit-dashboard.jpg)
+
+ 
