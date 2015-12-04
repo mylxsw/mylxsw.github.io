@@ -18,7 +18,7 @@ navbar: 归档
             <ul>
         {% endif %}
 
-        <li><span>{{ post.date | date: "%Y-%m-%d " }}</span> &raquo; <a href="{{ site.base_url }}{{ post.url }}">{{ post.title }}</a></li>
+        <li><span>{{ post.date | date: "%Y-%m-%d " }}</span> &raquo; <a href="http://b.aicode.cc{{ post.url }}">{{ post.title }}</a></li>
 
         {% if forloop.last %}
             </ul>
