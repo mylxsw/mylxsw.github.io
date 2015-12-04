@@ -108,7 +108,9 @@ sidebar: false
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
 <script>
   $(function() {
-    $('.header h1').addClass('animated bounceOutLeft');
+    window.setTimeout(function() {
+      $('.header h1').addClass('animated bounceOutLeft');
+    }, 3000);
   });
 </script>
 </body>
