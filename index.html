@@ -35,14 +35,30 @@ sidebar: false
   <style>
     .header {
       text-align: center;
+      -webkit-animation: bounceInUp 1s;
     }
     .header h1 {
       font-size: 200%;
-      color: #333;
       margin-top: 30px;
+      
+      color: #f35626;
+      background-image: -webkit-linear-gradient(92deg,#f35626,#feab3a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      -webkit-animation: hue 60s infinite linear;
     }
     .header p {
       font-size: 14px;
+    }
+    
+    @-webkit-keyframes hue {
+      from {
+        -webkit-filter: hue-rotate(0deg);
+      }
+    
+      to {
+        -webkit-filter: hue-rotate(-360deg);
+      }
     }
   </style>
 </head>
