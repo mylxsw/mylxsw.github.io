@@ -66,7 +66,7 @@ sidebar: false
 <body>
 <div class="header" style="margin-top: 50px;">
   <div class="am-g">
-    <h1 class="animated infinite rubberBand am-animation-delay-3">AICODE.CC</h1>
+    <h1>AICODE.CC</h1>
     <p>Stray birds of summer come to my window to sing and fly away
     <br/>夏天的飞鸟，在我窗前唱歌，又飞去了</p>
   </div>
@@ -106,5 +106,10 @@ sidebar: false
   </div>
 </div>
 <script src="http://libs.baidu.com/jquery/1.11.1/jquery.min.js"></script>
+<script>
+  $(function() {
+    $('.header h1').addClass('animated bounceOutLeft');
+  });
+</script>
 </body>
 </html>
