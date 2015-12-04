@@ -1,19 +1,19 @@
 <ul class="am-nav am-nav-pills am-topbar-nav">
     <li><a href="#">首页</a></li>
     <li class=" {% if page.navbar == '技术文章' %} am-active {% endif %}">
-        <a href="{{ site.base_url }}/category.html">技术文章</a>
+        <a href="http://b.aicode.cc/category.html">技术文章</a>
     </li>
     <li class=" {% if page.navbar == '归档' %} am-active {% endif %}">
         <a href="{{ site.base_url}}/archives.html">归档</a>
     </li>
     <li class="{% if page.navbar == 'LNMP系列' %} am-active {% endif %}">
-        <a href="{{ site.base_url }}/lnmp.html">LNMP系列</a>
+        <a href="http://b.aicode.cc/lnmp.html">LNMP系列</a>
     </li>
     <li><a href="http://vision.aicode.cc" target="_blank">VISION</a>
     <li>
-        <a href="{{ site.base_url }}/atom.xml" target="_blank">订阅</a>
+        <a href="http://b.aicode.cc/atom.xml" target="_blank">订阅</a>
     </li>
     <li>
-        <a href="{{ site.base_url }}/about.html">关于</a>
+        <a href="http://b.aicode.cc/about.html">关于</a>
     </li>
 </ul>
