@@ -1,8 +1,0 @@
-<div class="ai-categories">
-{% for cat in site.categories %}
-    <a class="am-badge am-radius am-badge-{% cycle 'primary', 'secondary', 'success', 'warning', 'danger' %}" href="{{site.BASE_PATH}}/category.html#{{ cat[0] }}-ref">
-        {{ cat[0] }}
-        <span class="badge">{{ cat[1].size }}</span>
-    </a>
-{% endfor %}
-</div>

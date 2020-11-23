@@ -1,6 +1,0 @@
----
-title : Sitemap
----
-{% for page in site.pages %}http://b.aicode.cc{{ page.url }}
-{% endfor %}{% for post in site.posts %}http://b.aicode.cc{{ post.url }}
-{% endfor %}
