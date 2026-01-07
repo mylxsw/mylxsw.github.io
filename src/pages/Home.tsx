@@ -118,7 +118,7 @@ export default function Home() {
             <Button 
               key={i}
               variant="ghost" 
-              className="h-auto py-2 px-4 flex flex-col gap-2 hover:bg-transparent transition-all group"
+              className="h-auto py-2 px-4 flex flex-col gap-2 rounded-xl hover:bg-transparent dark:hover:bg-transparent transition-all group"
               asChild
             >
               <a href={link.url} target="_blank" rel="noopener noreferrer">
