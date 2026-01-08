@@ -45,7 +45,8 @@ src/
 ### Key Configuration Files
 - **vite.config.ts**: Build output to `docs/`, custom Babel plugin adds `data-source` attributes
 - **tsconfig.json**: Path alias `@/*` maps to `./src/*`
-- **tailwind.config.js**: Custom animations for floating avatar and glow effects
+- **src/index.css**: Custom animations (float, pulse-glow) and dark theme color palette using oklch
+- **components.json**: shadcn/ui config (New York style, lucide icons)
 
 ### Development Patterns
 1. **Dark Theme Only**: Forces dark mode, no light mode support
@@ -55,5 +56,5 @@ src/
 
 ### Deployment
 - GitHub Pages deployment via `docs/` directory
-- CNAME file automatically generated during build
-- Custom domain: `gulu.ai`
+- CNAME file (`gulu.ai`) copied to docs/ during build via `scripts/ensure-cname.mjs`
+- Can override domain via `PAGES_CNAME`, `CNAME`, or `VITE_CNAME` env vars

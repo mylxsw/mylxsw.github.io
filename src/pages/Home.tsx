@@ -1,7 +1,8 @@
 import { motion } from "framer-motion";
+import { Link } from "wouter";
 import bgImg from "@/assets/bg.jpg";
 import avatarImg from "@/assets/avatar.png";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { siteConfig, socialLinks, externalLinks } from "@/config/links";
@@ -75,6 +76,12 @@ export default function Home() {
             <br />
             {siteConfig.description}
           </p>
+          <Link href="/about">
+            <Button variant="ghost" className="mt-4 group">
+              <User className="w-4 h-4 mr-2 group-hover:text-primary transition-colors" />
+              <span className="font-mono text-sm group-hover:text-primary transition-colors">About Me</span>
+            </Button>
+          </Link>
         </motion.div>
 
         {/* Links Grid */}

@@ -5,6 +5,7 @@ import { useHashLocation } from "wouter/use-hash-location";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Home from "@/pages/Home";
+import About from "@/pages/About";
 import NotFound from "@/pages/NotFound";
 
 // Use hash-based routing (/#/) to support opening index.html directly via file:// protocol
@@ -13,6 +14,7 @@ function AppRouter() {
     <Router hook={useHashLocation}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/about" component={About} />
         <Route component={NotFound} />
       </Switch>
     </Router>
