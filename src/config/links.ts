@@ -1,4 +1,19 @@
-import { Github, XIcon, Youtube, Terminal, Code, Mail, Bitcoin, Lightbulb, User } from "lucide-react";
+import { Github, XIcon, Youtube, Terminal, Code, Mail, Bitcoin, Mic, User } from "lucide-react";
+import nowCoinerLogo from "@/assets/now-coiner.png";
+import aIdeaLogo from "@/assets/aidea.png";
+import ployS3Logo from "@/assets/ploys3.png";
+import typefluxLogo from "@/assets/typeflux.png";
+import squirrelLogo from "@/assets/squirrel.png";
+
+export type FeaturedProject = {
+  slug: string;
+  name: string;
+  desc: string;
+  siteUrl: string;
+  moreUrl: string;
+  highlights: string[];
+  logo: string;
+};
 
 export const siteConfig = {
   name: "mylxsw",
@@ -37,30 +52,102 @@ export const socialLinks = [
 
 export const externalLinks = [
   { 
+    title: "Projects", 
+    desc: "Open source contributions", 
+    icon: Code, 
+    url: "/projects" 
+  },
+  {
+    title: "Typeflux",
+    desc: "Voice assistant",
+    icon: Mic,
+    url: "https://typeflux.gulu.ai"
+  },
+  { 
     title: "Blog", 
     desc: "Thoughts on code & life", 
     icon: Terminal, 
     url: "https://aicode.cc" 
   },
   { 
-    title: "Projects", 
-    desc: "Open source contributions", 
-    icon: Code, 
-    url: "https://github.com/mylxsw" 
-  },
-  { 
     title: "Web3", 
     desc: "Exploring decentralized technologies", 
     icon: Bitcoin, 
     url: "https://wy.is" 
-  },
-  {
-    title: "AIdea",
-    desc: "My first AI Project",
-    icon: Lightbulb,
-    url: "https://aidea.aicode.cc"
   }
 ];
+
+export const featuredProjects: FeaturedProject[] = [
+  {
+    slug: "nowcoiner",
+    name: "NowCoiner",
+    desc: "NowCoiner is a macOS menubar crypto tracker: configurable multi-coin ticker, pin/unpin, drag-to-reorder, and a rich detail view with market data — fast, clean, and distraction-free.",
+    siteUrl: "https://now-coiner.gulu.ai",
+    moreUrl: "https://now-coiner.gulu.ai",
+    logo: nowCoinerLogo,
+    highlights: [
+      "macOS menubar experience for at-a-glance crypto tracking",
+      "Configurable multi-coin ticker with pin, unpin, and drag-to-reorder",
+      "Rich market detail view designed to stay fast and distraction-free",
+    ],
+  },
+  {
+    slug: "aidea",
+    name: "AIdea",
+    desc: "An APP that integrates mainstream large language models and image generation models, built with Flutter, with fully open-source code.",
+    siteUrl: "https://ai.aicode.cc",
+    moreUrl: "https://ai.aicode.cc",
+    logo: aIdeaLogo,
+    highlights: [
+      "Integrates mainstream LLMs and image generation models in one app",
+      "Built with Flutter for a consistent cross-platform experience",
+      "Fully open-source and centered on practical AI workflows",
+    ],
+  },
+  {
+    slug: "ploys3",
+    name: "PloyS3",
+    desc: "A cross-platform, S3-compatible file manager. Browse, upload, and manage your files through a unified interface",
+    siteUrl: "https://ploys3.gulu.ai",
+    moreUrl: "https://ploys3.gulu.ai",
+    logo: ployS3Logo,
+    highlights: [
+      "Cross-platform desktop experience for object storage workflows",
+      "Works with S3-compatible services through one unified interface",
+      "Built for browsing, uploading, and managing files efficiently",
+    ],
+  },
+  {
+    slug: "typeflux",
+    name: "Typeflux",
+    desc: "Typeflux delivers lightning-fast, accurate voice-to-text directly into any application. Best of all, it's free, open-source, and supports local models.",
+    siteUrl: "https://typeflux.gulu.ai",
+    moreUrl: "https://typeflux.gulu.ai",
+    logo: typefluxLogo,
+    highlights: [
+      "Voice-to-text that works directly inside any application",
+      "Fast transcription with an emphasis on accuracy",
+      "Free, open-source, and supports local models",
+    ],
+  },
+  {
+    slug: "squirrel",
+    name: "Squirrel",
+    desc: "Squirrel is a high-performance, production-ready LLM gateway and proxy. OpenAI/Anthropic compatible, with protocol conversion, rule-based routing, failover, cost analytics, and a modern admin dashboard.",
+    siteUrl: "https://squirrel.gulu.ai",
+    moreUrl: "https://squirrel.gulu.ai",
+    logo: squirrelLogo,
+    highlights: [
+      "High-performance LLM gateway and proxy for production environments",
+      "OpenAI and Anthropic compatible with protocol conversion support",
+      "Includes rule-based routing, failover, cost analytics, and a modern admin dashboard",
+    ],
+  },
+];
+
+export function getFeaturedProject(slug: string) {
+  return featuredProjects.find((project) => project.slug === slug);
+}
 
 export const aboutConfig = {
   title: "About Me",

@@ -6,6 +6,8 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
+import Projects from "@/pages/Projects";
+import ProjectDetail from "@/pages/ProjectDetail";
 import NotFound from "@/pages/NotFound";
 
 // Use hash-based routing (/#/) to support opening index.html directly via file:// protocol
@@ -15,6 +17,8 @@ function AppRouter() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/about" component={About} />
+        <Route path="/projects" component={Projects} />
+        <Route path="/projects/:slug" component={ProjectDetail} />
         <Route component={NotFound} />
       </Switch>
     </Router>
@@ -40,4 +44,3 @@ function App() {
 }
 
 export default App;
-

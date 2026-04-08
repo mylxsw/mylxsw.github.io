@@ -92,25 +92,40 @@ export default function Home() {
           className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 mb-16 max-w-2xl"
         >
           {externalLinks.map((link, i) => (
-            <a 
-              key={i} 
-              href={link.url}
-              className="group"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Card className="h-full bg-background/5 border-white/5 hover:border-primary/50 hover:bg-white/5 transition-all duration-300 backdrop-blur-md p-6 flex flex-row items-center gap-4 relative overflow-hidden group-hover:shadow-[0_0_20px_rgba(0,240,255,0.1)]">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="p-3 rounded-md bg-white/5 group-hover:bg-primary/20 text-foreground group-hover:text-primary transition-colors shrink-0">
-                  <link.icon className="w-6 h-6" />
-                </div>
-                <div className="flex-1 text-left">
-                  <h3 className="font-bold text-lg leading-none mb-1 group-hover:text-primary transition-colors">{link.title}</h3>
-                  <p className="text-xs text-muted-foreground font-mono">{link.desc}</p>
-                </div>
-                <ExternalLink className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transform duration-300" />
-              </Card>
-            </a>
+            link.url.startsWith("/") ? (
+              <Link key={i} href={link.url} className="group">
+                <Card className="h-full bg-background/5 border-white/5 hover:border-primary/50 hover:bg-white/5 transition-all duration-300 backdrop-blur-md p-6 flex flex-row items-center gap-4 relative overflow-hidden group-hover:shadow-[0_0_20px_rgba(0,240,255,0.1)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="p-3 rounded-md bg-white/5 group-hover:bg-primary/20 text-foreground group-hover:text-primary transition-colors shrink-0">
+                    <link.icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-lg leading-none mb-1 group-hover:text-primary transition-colors">{link.title}</h3>
+                    <p className="text-xs text-muted-foreground font-mono">{link.desc}</p>
+                  </div>
+                </Card>
+              </Link>
+            ) : (
+              <a 
+                key={i} 
+                href={link.url}
+                className="group"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Card className="h-full bg-background/5 border-white/5 hover:border-primary/50 hover:bg-white/5 transition-all duration-300 backdrop-blur-md p-6 flex flex-row items-center gap-4 relative overflow-hidden group-hover:shadow-[0_0_20px_rgba(0,240,255,0.1)]">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="p-3 rounded-md bg-white/5 group-hover:bg-primary/20 text-foreground group-hover:text-primary transition-colors shrink-0">
+                    <link.icon className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <h3 className="font-bold text-lg leading-none mb-1 group-hover:text-primary transition-colors">{link.title}</h3>
+                    <p className="text-xs text-muted-foreground font-mono">{link.desc}</p>
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary/50 transition-colors opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transform duration-300" />
+                </Card>
+              </a>
+            )
           ))}
         </motion.div>
 
