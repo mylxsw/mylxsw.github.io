@@ -61,7 +61,7 @@ export const externalLinks = [
     title: "Typeflux",
     desc: "Voice assistant",
     icon: Mic,
-    url: "https://typeflux.gulu.ai"
+    url: "https://typeflux.app"
   },
   { 
     title: "Blog", 
@@ -121,8 +121,8 @@ export const featuredProjects: FeaturedProject[] = [
     slug: "typeflux",
     name: "Typeflux",
     desc: "Typeflux delivers lightning-fast, accurate voice-to-text directly into any application. Best of all, it's free, open-source, and supports local models.",
-    siteUrl: "https://typeflux.gulu.ai",
-    moreUrl: "https://typeflux.gulu.ai",
+    siteUrl: "https://typeflux.app",
+    moreUrl: "https://typeflux.app",
     logo: typefluxLogo,
     highlights: [
       "Voice-to-text that works directly inside any application",
