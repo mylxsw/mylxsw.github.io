@@ -1,60 +1,31 @@
 # AGENTS.md
 
-This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
+Repository guidance for Codex.
 
 ## Project Overview
 
-Personal Link Hub - A one-page personal navigation center with dark, geeky aesthetic. Built with React 19, TypeScript, Vite, and Tailwind CSS.
+Gulu AI company homepage, a static React 19 + TypeScript 6 + Vite 8 website. The source was imported from `mylxsw/gulu-ai-website`; this repository retains the existing GitHub Pages deployment for `gulu.ai`.
 
-## Essential Commands
+## Commands
 
-```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production (outputs to docs/)
-npm run lint         # Run ESLint
-npm run preview      # Preview production build
+- `npm ci`: install the locked dependencies.
+- `npm run dev` or `make run`: start the development server.
+- `npm run lint`: run Oxlint.
+- `npm run build` or `make build`: type-check, build to `docs/`, and preserve the custom domain.
+- `npm run preview`: serve the production build.
+- `make push`: build, commit the generated site, and push.
 
-# Deployment workflow
-make run             # Start dev server
-make build           # Build project
-make push            # Build, commit "publish", and push to git
-```
+## Structure
 
-## Architecture & Key Patterns
+- `src/App.tsx`: ordered homepage sections.
+- `src/components/`: React sections with their colocated CSS.
+- `src/data/products.ts`: product descriptions, URLs, highlights, and optional logos.
+- `src/data/site.ts`: navigation, model providers, and the existing contact email.
+- `src/styles/global.css`: design tokens and shared styles.
+- `public/`: favicon, optional logos, and `.nojekyll`.
 
-### Tech Stack
-- **React 19** with TypeScript (strict mode disabled)
-- **Vite** build tool with custom Babel plugin for AI debugging
-- **Tailwind CSS 4** for styling with custom animations
-- **wouter** for hash-based routing (supports file:// protocol)
-- **shadcn/ui** components (New York style)
-- **Framer Motion** for animations
+## Deployment Requirements
 
-### Project Structure
-```
-src/
-├── components/        # React components (ui/ for shadcn components)
-├── pages/            # Route components (Home.tsx, NotFound.tsx)
-├── config/           # Configuration (links.ts for all site links)
-├── contexts/         # React contexts (ThemeContext for dark mode)
-├── hooks/            # Custom React hooks
-└── lib/              # Utility functions
-```
+GitHub Pages publishes `main:/docs`. Keep `vite.config.ts` output set to `docs/`, retain the root `CNAME` (`gulu.ai`), and keep `scripts/ensure-cname.mjs` in the build command. The script also supports explicit `PAGES_CNAME`, `CNAME`, and `VITE_CNAME` overrides. Generated `docs/` files are versioned and must be committed with source changes. Do not change DNS, Pages publishing source, or the custom domain as part of routine code updates.
 
-### Key Configuration Files
-- **vite.config.ts**: Build output to `docs/`, custom Babel plugin adds `data-source` attributes
-- **tsconfig.json**: Path alias `@/*` maps to `./src/*`
-- **src/index.css**: Custom animations (float, pulse-glow) and dark theme color palette using oklch
-- **components.json**: shadcn/ui config (New York style, lucide icons)
-
-### Development Patterns
-1. **Dark Theme Only**: Forces dark mode, no light mode support
-2. **Hash Routing**: All routes use `/#/` prefix for file:// protocol compatibility
-3. **Link Configuration**: All external links defined in `src/config/links.ts`
-4. **AI Debugging**: Custom Babel plugin injects source location data attributes
-
-### Deployment
-- GitHub Pages deployment via `docs/` directory
-- CNAME file (`gulu.ai`) copied to docs/ during build via `scripts/ensure-cname.mjs`
-- Can override domain via `PAGES_CNAME`, `CNAME`, or `VITE_CNAME` env vars
+Run lint and build, verify deployed asset responses and the rendered live page, and confirm the GitHub Pages deployment belongs to the pushed commit. The old homepage is preserved on `backup/pre-gulu-ai-2026-10-08`; see README.md for rollback.

@@ -1,46 +1,25 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { Router, Route, Switch } from "wouter";
-import { useHashLocation } from "wouter/use-hash-location";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import Home from "@/pages/Home";
-import About from "@/pages/About";
-import Projects from "@/pages/Projects";
-import ProjectDetail from "@/pages/ProjectDetail";
-import NotFound from "@/pages/NotFound";
+import Nav from './components/Nav.tsx'
+import Hero from './components/Hero.tsx'
+import ModelMarquee from './components/ModelMarquee.tsx'
+import Products from './components/Products.tsx'
+import Platform from './components/Platform.tsx'
+import Stats from './components/Stats.tsx'
+import Closing from './components/Closing.tsx'
+import Footer from './components/Footer.tsx'
 
-// Use hash-based routing (/#/) to support opening index.html directly via file:// protocol
-function AppRouter() {
+export default function App() {
   return (
-    <Router hook={useHashLocation}>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/about" component={About} />
-        <Route path="/projects" component={Projects} />
-        <Route path="/projects/:slug" component={ProjectDetail} />
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
-  );
+    <>
+      <Nav />
+      <main id="top">
+        <Hero />
+        <ModelMarquee />
+        <Products />
+        <Platform />
+        <Stats />
+        <Closing />
+      </main>
+      <Footer />
+    </>
+  )
 }
-
-// Note on theming:
-// - Choose defaultTheme based on your design (light or dark background)
-// - Update the color palette in index.css to match
-// - If you want switchable themes, add `switchable` prop and use `useTheme` hook
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="dark">
-        <TooltipProvider>
-          <Toaster />
-          <AppRouter />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;

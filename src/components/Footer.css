@@ -1,0 +1,11 @@
+.footer { margin-top: clamp(4rem, 8vw, 6rem); border-top: 1px solid var(--line); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem; padding-block: 3rem; font-size: 0.9rem; }
+.footer h4 { margin: 0 0 0.8rem; font-size: 0.8rem; font-weight: 500; letter-spacing: 0; }
+.footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; color: var(--muted); }
+.footer a:hover { color: var(--fg); }
+.footer .about p { color: var(--muted); margin-top: 0.8rem; max-width: 30ch; }
+.footer .brand { display: inline-flex; align-items: center; gap: 0.55rem; font-weight: 600; }
+.footer .brand svg { width: 24px; height: 24px; }
+.legal { border-top: 1px solid var(--line); }
+.legal .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; padding-block: 1.4rem 2rem; color: var(--dim); font-size: 0.84rem; }
+@media (max-width: 760px) { .footer-grid { grid-template-columns: 1fr 1fr; } .footer .about { grid-column: span 2; } }

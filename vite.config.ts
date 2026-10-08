@@ -1,21 +1,9 @@
-import path from "path";
-import react from "@vitejs/plugin-react";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vite";
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        plugins: [
-          // Inject data-source attribute for AI agent source location
-          "./scripts/babel-plugin-jsx-source-location.cjs",
-        ],
-      },
-    }),
-    tailwindcss(),
-  ],
-  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
-  base: "./",
-  build: { outDir: "docs", emptyOutDir: true },
-});
+  plugins: [react()],
+  base: './',
+  build: { outDir: 'docs', emptyOutDir: true },
+})
