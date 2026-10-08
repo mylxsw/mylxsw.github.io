@@ -24,6 +24,7 @@ export const products: Product[] = [
     slug: 'typeflux',
     name: 'Typeflux',
     monogram: 'Tf',
+    logo: '/logos/typeflux.png',
     tag: 'Flagship',
     featured: true,
     description:
@@ -40,6 +41,7 @@ export const products: Product[] = [
     slug: 'squirrel',
     name: 'Squirrel',
     monogram: 'Sq',
+    logo: '/logos/squirrel.png',
     tag: 'LLM gateway',
     description:
       'A high-performance, production-ready LLM gateway. OpenAI and Anthropic compatible, with protocol conversion, rule-based routing, failover and cost analytics.',
@@ -50,6 +52,7 @@ export const products: Product[] = [
     slug: 'aidea',
     name: 'AIdea',
     monogram: 'Ai',
+    logo: '/logos/aidea.png',
     tag: 'AI app',
     description:
       'One app for mainstream large language models and image generation models. Built with Flutter and fully open source.',
@@ -60,6 +63,7 @@ export const products: Product[] = [
     slug: 'nowcoiner',
     name: 'NowCoiner',
     monogram: 'Nc',
+    logo: '/logos/now-coiner.png',
     tag: 'Menu bar',
     description:
       'A macOS menu bar crypto tracker with a configurable multi-coin ticker, pin and drag-to-reorder, and a rich market detail view.',
@@ -70,6 +74,7 @@ export const products: Product[] = [
     slug: 'ploys3',
     name: 'PloyS3',
     monogram: 'S3',
+    logo: '/logos/ploys3.png',
     tag: 'File manager',
     description:
       'A cross-platform, S3-compatible file manager. Browse, upload and manage files across your storage services in one interface.',
