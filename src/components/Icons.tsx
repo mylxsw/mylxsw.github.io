@@ -1,4 +1,4 @@
-import type { SVGProps } from 'react'
+import type { ImgHTMLAttributes, SVGProps } from 'react'
 
 type IconProps = SVGProps<SVGSVGElement>
 
@@ -10,12 +10,9 @@ const stroke = {
   strokeLinejoin: 'round',
 } as const
 
-export function LogoMark(props: IconProps) {
+export function LogoMark(props: ImgHTMLAttributes<HTMLImageElement>) {
   return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" {...props}>
-      <rect width="32" height="32" rx="10" fill="var(--accent)" />
-      <path d="M21.5 12.2A7 7 0 1 0 23 17h-6.5" fill="none" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
-    </svg>
+    <img src="/brand/gulu-mark.svg" alt="" width="28" height="28" {...props} />
   )
 }
 

@@ -19,6 +19,7 @@ npm run lint
 - **Products:** `src/data/products.ts`. The first product with `featured: true` is the large card. To use a real logo, put the image in `public/logos/` and set `logo: '/logos/<file>.png'`. Without a logo, the card shows the two-letter `monogram`.
 - **Navigation, model list, contact email:** `src/data/site.ts`. The contact email preserves the address from the previous live homepage.
 - **Colors and fonts:** the tokens at the top of `src/styles/global.css`.
+- **Company logo:** `public/brand/gulu-mark.svg` is the vector version of the approved violet G concept. Navigation, footer, and browser icon use the same file. The adjacent wordmark inherits the foreground color for dark/light backgrounds.
 
 The five product icons in `public/logos/` are restored unchanged from `backup/pre-gulu-ai-2026-10-08:src/assets/`. They were checked against the corresponding product projects, including the current AIdea iOS app icon. These bundled images replace the letter placeholders and do not depend on external image hosts.
 
